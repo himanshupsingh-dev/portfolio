@@ -1,4 +1,44 @@
+/* ── Toggle Menu ───────────────────────────────────────────────── */
+function toggleMenu() {
+  const navbar = document.getElementById('navbar');
+  const navlinks = document.getElementById('navlinks');
+  const hamburger = document.querySelector('.hamburger');
+
+  navlinks.classList.toggle('open');
+  hamburger.classList.toggle('active');
+}
+
+// Close menu when a link is clicked
+document.addEventListener('DOMContentLoaded', function() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navlinks').classList.remove('open');
+      document.querySelector('.hamburger').classList.remove('active');
+    });
+  });
+});
+
 document.addEventListener('DOMContentLoaded', function () {
+
+  /* ── Header Hide/Show on Scroll ────────────────────────────── */
+  const navbar = document.getElementById('navbar');
+  let lastScrollY = 0;
+  let scrollTimeout;
+
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > 100) {
+      if (currentScrollY > lastScrollY + 5) {
+        navbar.style.transform = 'translateY(-100%)';
+      } else if (currentScrollY < lastScrollY - 5) {
+        navbar.style.transform = 'translateY(0)';
+      }
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
 
   /* ── Scroll Progress ─────────────────────────────────────── */
   const bar = document.createElement('div');
