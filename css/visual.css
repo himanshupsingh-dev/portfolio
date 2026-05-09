@@ -1,0 +1,378 @@
+/* ══════════════════════════════════════════════════════════════
+   VISUAL ENHANCEMENTS: LOADER, PARTICLES, CANVASES, TYPEWRITER
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Page Loader ────────────────────────────────────────────────── */
+#page-loader {
+  position: fixed; inset: 0;
+  background: #0b0f1a;
+  z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.7s cubic-bezier(0.7,0,1,1), transform 0.7s cubic-bezier(0.7,0,1,1);
+}
+#page-loader.pl-exit {
+  opacity: 0; transform: scale(1.04); pointer-events: none;
+}
+.pl-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 1.4rem;
+  animation: pl-in 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes pl-in { from { opacity: 0; transform: translateY(24px); } }
+.pl-logo {
+  position: relative; width: 72px; height: 72px;
+}
+.pl-h {
+  width: 72px; height: 72px;
+  background: linear-gradient(135deg, #4f8ef7 0%, #a78bfa 100%);
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-weight: 900; font-size: 2.2rem; color: #fff;
+  box-shadow: 0 0 0 0 rgba(79,142,247,0.5);
+  animation: pl-pulse 2s ease-in-out infinite;
+}
+@keyframes pl-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79,142,247,0.5), 0 16px 48px rgba(79,142,247,0.35); }
+  50%       { box-shadow: 0 0 0 14px rgba(79,142,247,0), 0 24px 64px rgba(79,142,247,0.55); }
+}
+.pl-spinner {
+  position: absolute; inset: -12px; border-radius: 50%;
+  background: conic-gradient(from 0deg, #4f8ef7, #a78bfa, #34d399, transparent 70%);
+  animation: pl-spin 1.4s linear infinite;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #fff calc(100% - 2px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #fff calc(100% - 2px));
+}
+@keyframes pl-spin { to { transform: rotate(360deg); } }
+.pl-name {
+  font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 800;
+  color: #f0f4ff; letter-spacing: -0.02em;
+}
+.pl-name span {
+  background: linear-gradient(135deg, #4f8ef7, #a78bfa);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.pl-track {
+  width: 180px; height: 2px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden;
+}
+.pl-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #4f8ef7, #a78bfa, #34d399);
+  border-radius: 2px; transition: width 0.2s ease;
+}
+.pl-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+  color: rgba(255,255,255,0.28); letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* ── Particle Canvas ────────────────────────────────────────────── */
+#particles-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+/* ── Section Background Canvases ────────────────────────────────── */
+#about-bg, #skills-bg, #certs-bg, #contact-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: 0.35;
+}
+#experience-bg, #work-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0; opacity: 0.15;
+}
+
+/* Backdrop overlay for text readability */
+#about::before, #skills::before, #certs::before, #contact::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(11,15,26,0.4) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+#experience::before, #work::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11,15,26,0.5) 0%, rgba(11,15,26,0.6) 50%, rgba(11,15,26,0.5) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+#particles-bg.visible { opacity: 1; }
+
+/* ── Typewriter cursor ──────────────────────────────────────────── */
+.tw-cursor {
+  display: inline-block; width: 2.5px; height: 0.9em;
+  background: var(--accent3); border-radius: 1px;
+  margin-left: 2px; vertical-align: middle;
+  animation: blink 0.9s step-end infinite;
+}
+
+/* ── Hero Role redesign ─────────────────────────────────────────── */
+.hero-role-block { margin-bottom: 1.5rem; }
+.hero-role-title {
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 0; margin-bottom: 0.9rem;
+}
+.hero-role-text {
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-weight: 700; letter-spacing: -0.01em;
+  background: linear-gradient(135deg, var(--accent3) 0%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-role-extras {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+}
+.role-chip {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.3rem 0.85rem; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.01em;
+  border: 1px solid; white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.role-chip:hover { transform: translateY(-2px); }
+.role-chip-blue  { background: rgba(79,142,247,0.1);  border-color: rgba(79,142,247,0.35);  color: var(--accent); }
+.role-chip-blue:hover  { box-shadow: 0 4px 16px rgba(79,142,247,0.25); }
+.role-chip-green { background: rgba(52,211,153,0.1);  border-color: rgba(52,211,153,0.35);  color: var(--accent3); }
+.role-chip-green:hover { box-shadow: 0 4px 16px rgba(52,211,153,0.25); }
+.role-chip-purple{ background: rgba(167,139,250,0.1); border-color: rgba(167,139,250,0.35); color: var(--accent2); }
+.role-chip-purple:hover{ box-shadow: 0 4px 16px rgba(167,139,250,0.25); }
+
+/* ── Cursor Trail ───────────────────────────────────────────────── */
+.trail-dot {
+  position: fixed; border-radius: 50%;
+  pointer-events: none; z-index: 9994; mix-blend-mode: screen;
+  will-change: transform;
+}
+
+/* ── Hero Aurora Orbs ───────────────────────────────────────────── */
+.hero-orb {
+  position: absolute; border-radius: 50%; pointer-events: none; z-index: 0;
+  animation: orb-drift 12s ease-in-out infinite;
+}
+.hero-orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+  top: -100px; left: -100px;
+  animation-duration: 14s;
+}
+.hero-orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%);
+  bottom: 0; right: -80px;
+  animation-duration: 18s; animation-delay: -6s;
+}
+.hero-orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(52,211,153,0.07) 0%, transparent 70%);
+  top: 40%; left: 35%;
+  animation-duration: 20s; animation-delay: -10s;
+}
+@keyframes orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.08); }
+  66%       { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+/* ── Enhanced section title underline ──────────────────────────── */
+.section-label {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.section-label::before {
+  content: '';
+  display: inline-block; width: 20px; height: 1px;
+  background: var(--accent);
+}
+.section-label::after { display: none; }
+
+/* ── Work card shine ────────────────────────────────────────────── */
+.wc-shine {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%);
+  transform: translateX(-120%); border-radius: inherit;
+}
+.work-card:hover .wc-shine {
+  transform: translateX(120%); transition: transform 0.65s ease;
+}
+
+/* ── Stat number gradient ───────────────────────────────────────── */
+.hero-stats .stat-num {
+  background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── Nav logo mark glow ─────────────────────────────────────────── */
+.nav-logo-mark {
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.nav-logo-mark:hover {
+  box-shadow: 0 4px 24px rgba(79,142,247,0.6);
+  transform: rotate(-4deg) scale(1.08);
+}
+
+/* ── Timeline item hover glow ───────────────────────────────────── */
+.tl-item.tl-hoverable {
+  border-radius: 12px;
+  transition: box-shadow 0.35s;
+}
+.tl-item.tl-hoverable:hover {
+  box-shadow: inset 0 0 0 1px rgba(79,142,247,0.1), 0 4px 32px rgba(79,142,247,0.06);
+}
+
+/* ── Skill pill glow on hover ───────────────────────────────────── */
+.pill:hover {
+  box-shadow: 0 0 12px rgba(79,142,247,0.3);
+}
+
+/* ── Section separator ──────────────────────────────────────────── */
+.section-sep {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  border: none;
+}
+
+/* ── About highlight card glow ──────────────────────────────────── */
+.highlight-item:hover {
+  box-shadow: 0 0 24px rgba(79,142,247,0.12);
+}
+
+/* ── Cert card slide-in ─────────────────────────────────────────── */
+.cert-card:hover {
+  box-shadow: 4px 0 0 var(--accent), 0 8px 32px rgba(0,0,0,0.3);
+}
+
+/* ── Contact section glow ring ──────────────────────────────────── */
+.contact-card:hover {
+  box-shadow: 0 8px 32px rgba(79,142,247,0.18);
+}
+
+/* ── Footer subtle gradient top border ─────────────────────────── */
+footer {
+  border-top: 1px solid transparent;
+  background: linear-gradient(var(--bg2), var(--bg2)) padding-box,
+              linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent) border-box;
+}
+
+/* ── Mobile: show hero name full on small screens ───────────────── */
+@media (max-width: 900px) {
+  .hero-orb { display: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   EXTRA ANIMATIONS: PROGRESS DOTS, SCRAMBLE, CONTACT RINGS
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Section progress dots (right edge) ────────────────────────── */
+.sec-nav {
+  position: fixed; right: 1.4rem; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 0.8rem;
+  z-index: 88;
+  opacity: 0; transition: opacity 0.5s;
+}
+.sec-nav.visible { opacity: 1; }
+.sec-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border); border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer; position: relative;
+  transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.sec-dot.active {
+  background: var(--accent); transform: scale(1.55);
+  box-shadow: 0 0 10px var(--accent);
+}
+.sec-dot-label {
+  position: absolute; right: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.65rem; font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted); white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateY(-50%) translateX(4px);
+}
+.sec-dot:hover .sec-dot-label {
+  opacity: 1; transform: translateY(-50%) translateX(0);
+}
+@media (max-width: 900px) { .sec-nav { display: none; } }
+
+/* ── Contact pulse rings ────────────────────────────────────────── */
+.contact-rings {
+  position: absolute; left: 50%; top: 40%;
+  transform: translate(-50%, -50%);
+  pointer-events: none; z-index: 0;
+}
+.c-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(79,142,247,0.25);
+  transform: translate(-50%, -50%);
+  animation: ring-expand 4s ease-out infinite;
+}
+.c-ring:nth-child(1) { animation-delay: 0s;    width: 200px; height: 200px; }
+.c-ring:nth-child(2) { animation-delay: 1.3s;  width: 200px; height: 200px; }
+.c-ring:nth-child(3) { animation-delay: 2.6s;  width: 200px; height: 200px; }
+@keyframes ring-expand {
+  0%   { width: 80px; height: 80px; opacity: 0.7; }
+  100% { width: 700px; height: 700px; opacity: 0; }
+}
+
+/* ── Skill card animated gradient border on hover ───────────────── */
+@property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+.skill-category {
+  --angle: 0deg;
+}
+.skill-category:hover {
+  border-color: transparent !important;
+  background-image: linear-gradient(var(--bg2), var(--bg2)),
+    conic-gradient(from var(--angle), var(--accent), var(--accent2), var(--accent3), var(--accent));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  animation: border-spin 3s linear infinite;
+}
+@keyframes border-spin { to { --angle: 360deg; } }
+
+/* ── Hero badge enhanced float ──────────────────────────────────── */
+.hero-badge {
+  animation: badge-float 3s ease-in-out infinite;
+}
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-5px); }
+}
+
+/* ── Stagger reveal from LEFT for experience items ──────────────── */
+.reveal-left {
+  opacity: 0; transform: translateX(-32px);
+  transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+}
+.reveal-left.visible { opacity: 1; transform: none; }
+
+/* ── Stagger reveal SCALE for cert cards ───────────────────────── */
+.reveal-scale {
+  opacity: 0; transform: scale(0.9);
+  transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+}
+.reveal-scale.visible { opacity: 1; transform: none; }
+
+/* ── Number counter — animated digit odometer feel ──────────────── */
+.stat-num { overflow: hidden; }
+
+/* ── Highlight item glimmer ─────────────────────────────────────── */
+.highlight-item {
+  position: relative; overflow: hidden;
+}
+.highlight-item::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.highlight-item:hover::after { transform: translateX(100%); }
+
+/* ── Nav link scramble style ────────────────────────────────────── */
+.nav-links a { font-variant-numeric: tabular-nums; }
+
+/* ── Floating badge on about avatar ────────────────────────────– */
+.avatar-badge {
+  animation: badge-float 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
