@@ -12,7 +12,7 @@
 
 /* Custom cursor */
 /* ── Neon Glow Cursor ───────────────────────────────────────── */
-* { cursor: none !important; }
+body:not([data-touch]) * { cursor: none !important; }
 .cursor-dot {
   position: fixed; top: 0; left: 0;
   width: 9px; height: 9px;

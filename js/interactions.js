@@ -10,31 +10,36 @@ document.addEventListener('DOMContentLoaded', function () {
   }, { passive: true });
 
   /* ── Custom Cursor ───────────────────────────────────────── */
-  const dot  = document.createElement('div');
-  const ring = document.createElement('div');
-  dot.className = 'cursor-dot';
-  ring.className = 'cursor-ring';
-  document.body.append(dot, ring);
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    /* skip custom cursor on touch devices */
+    document.body.setAttribute('data-touch', 'true');
+  } else {
+    const dot  = document.createElement('div');
+    const ring = document.createElement('div');
+    dot.className = 'cursor-dot';
+    ring.className = 'cursor-ring';
+    document.body.append(dot, ring);
 
-  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
-  let rx = mx, ry = my;
+    let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    let rx = mx, ry = my;
 
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  document.addEventListener('mousedown', () => ring.classList.add('clicked'));
-  document.addEventListener('mouseup',   () => ring.classList.remove('clicked'));
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    document.addEventListener('mousedown', () => ring.classList.add('clicked'));
+    document.addEventListener('mouseup',   () => ring.classList.remove('clicked'));
 
-  (function loop() {
-    dot.style.transform  = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
-    rx += (mx - rx) * 0.11;
-    ry += (my - ry) * 0.11;
-    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
-    requestAnimationFrame(loop);
-  })();
+    (function loop() {
+      dot.style.transform  = `translate(calc(${mx}px - 50%), calc(${my}px - 50%))`;
+      rx += (mx - rx) * 0.11;
+      ry += (my - ry) * 0.11;
+      ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+      requestAnimationFrame(loop);
+    })();
 
-  document.querySelectorAll('a, button, .work-card, .skill-category, .cert-card, .highlight-item, .pill, .tl-tag').forEach(el => {
-    el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
-  });
+    document.querySelectorAll('a, button, .work-card, .skill-category, .cert-card, .highlight-item, .pill, .tl-tag').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+    });
+  }
 
   /* ── Section Glow ────────────────────────────────────────── */
   document.querySelectorAll('section').forEach(sec => {
