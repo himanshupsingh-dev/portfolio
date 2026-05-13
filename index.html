@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.workers.dev http://localhost:8787; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
   <title>Himanshu Pratap Singh — Software Developer</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234f8ef7'/%3E%3Cstop offset='1' stop-color='%23a78bfa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Ctext x='16' y='23' font-family='Inter,Arial,sans-serif' font-size='19' font-weight='900' fill='white' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/visual.css">
+  <link rel="stylesheet" href="css/ai-agent.css">
 </head>
 <body>
   <!-- Page Loader -->
@@ -87,27 +88,16 @@
 
   <!-- Floating Action Dock -->
   <div class="dock">
-    <button class="dock-btn" id="dock-terminal" title="Open Interactive Terminal (Press `)">💻</button>
-    <button class="dock-btn" id="dock-theme" title="Change Color Theme">🎨</button>
-    <button class="dock-btn" id="dock-resume" title="Download My Resume">⬇️</button>
-    <button class="dock-btn" id="dock-shortcuts" title="View Keyboard Shortcuts (Press ?)">❓</button>
+    <button class="dock-btn" id="dock-theme" data-tooltip="Change Color Theme">🎨</button>
+    <button class="dock-btn" id="dock-resume" data-tooltip="Download My Resume">⬇️</button>
+    <button class="dock-btn" id="dock-shortcuts" data-tooltip="Keyboard Shortcuts">❓</button>
+    <button class="dock-btn" id="dock-ai" data-tooltip="Himanshu's AI">🤖</button>
   </div>
 
   <!-- Theme Popover -->
   <div class="theme-pop" id="theme-pop">
     <h5>Choose Theme</h5>
     <div class="theme-list" id="theme-list"></div>
-  </div>
-
-  <!-- Terminal Overlay -->
-  <div id="term-overlay" class="terminal-overlay">
-    <div class="terminal">
-      <div class="term-header">
-        <span style="color:var(--accent)">$</span>
-        <span class="term-title">hps.dev ~ interactive terminal</span>
-      </div>
-      <div class="term-body" id="term-body"></div>
-    </div>
   </div>
 
   <!-- Project Modal -->
@@ -121,6 +111,36 @@
   <!-- Shortcuts Overlay -->
   <div id="shortcuts-overlay" class="shortcuts-overlay">
     <div class="shortcuts-card" id="shortcuts-card"></div>
+  </div>
+
+  <!-- AI Chat Panel -->
+  <div id="ai-chat-panel">
+    <div class="ai-chat-header">
+      <div class="ai-chat-title">
+        <span class="ai-chat-icon">🤖</span>
+        <div>
+          <div class="ai-chat-name">Himanshu's AI</div>
+          <div class="ai-chat-sub"><span class="ai-online-dot"></span>Always available</div>
+        </div>
+      </div>
+      <button id="ai-close-btn" class="ai-close-btn" title="Close">×</button>
+    </div>
+    <div id="ai-messages" class="ai-messages"></div>
+    <div class="ai-chat-footer">
+      <div class="ai-counter-wrap">
+        <span id="ai-msg-counter" class="ai-msg-counter">0/15 messages</span>
+      </div>
+      <div class="ai-input-wrap">
+        <textarea id="ai-msg-input" class="ai-msg-input"
+          placeholder="Ask about skills, projects, experience…"
+          rows="1" maxlength="500"></textarea>
+        <button id="ai-send-btn" class="ai-send-btn" title="Send (Enter)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Toast Notifications -->
@@ -147,6 +167,7 @@
   <script src="js/interactive.js"></script>
   <script src="js/visual.js"></script>
   <script src="js/animations.js"></script>
+  <script src="js/ai-agent.js"></script>
 </body>
 </html>
 

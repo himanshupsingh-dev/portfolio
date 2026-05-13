@@ -1,7 +1,13 @@
-# Environment variables
+# API Keys — NEVER commit secrets or API keys to version control
+.dev.vars
+# The Groq API key is stored as a Cloudflare Worker secret (not in this repo)
+# cloudflare-worker.js and wrangler.toml are safe to commit — they contain no secrets
 .env
 .env.local
 .env.*.local
+
+# Wrangler (Cloudflare Workers CLI) auto-generated files
+.wrangler/
 
 # Dependencies
 node_modules/

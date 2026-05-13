@@ -187,4 +187,17 @@ document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => badge.classList.add('in'), 200);
   }
 
+  /* ── AI Chat dock button ─────────────────────────────────── */
+  const aiBtn = document.getElementById('dock-ai');
+  if (aiBtn) {
+    aiBtn.addEventListener('click', () => {
+      const panel = document.getElementById('ai-chat-panel');
+      if (panel && panel.classList.contains('open')) {
+        if (typeof window.closeAIChat === 'function') window.closeAIChat();
+      } else {
+        if (typeof window.openAIChat === 'function') window.openAIChat();
+      }
+    });
+  }
+
 });

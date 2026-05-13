@@ -643,7 +643,6 @@ ${skills.map(s => `<div class="skill-cat"><strong>${s.title}</strong>${s.pills.j
     card.innerHTML = `
       <h3>Keyboard Shortcuts</h3>
       <div class="shortcut-row"><span>Toggle Shortcuts</span><span><span class="kbd">?</span></span></div>
-      <div class="shortcut-row"><span>Open Terminal</span><span><span class="kbd">\`</span></span></div>
       <div class="shortcut-row"><span>Cycle Theme</span><span><span class="kbd">T</span></span></div>
       <div class="shortcut-row"><span>Go to Contact</span><span><span class="kbd">G</span> then <span class="kbd">C</span></span></div>
       <div class="shortcut-row"><span>Close Overlays</span><span><span class="kbd">Esc</span></span></div>
@@ -668,9 +667,6 @@ ${skills.map(s => `<div class="skill-cat"><strong>${s.title}</strong>${s.pills.j
       switch (e.key) {
         case '?':
           e.preventDefault(); open(); break;
-        case '`':
-        case '~':
-          e.preventDefault(); openTerminal(); break;
         case 't':
         case 'T':
           if (!isAnyOverlayOpen()) cycleTheme();
@@ -689,216 +685,15 @@ ${skills.map(s => `<div class="skill-cat"><strong>${s.title}</strong>${s.pills.j
         case 'Escape':
           close();
           closeModal();
-          closeTerminal();
           break;
       }
     });
   }
 
   function isAnyOverlayOpen() {
-    return $('#term-overlay').classList.contains('open') ||
-           $('#project-modal').classList.contains('open') ||
+    return $('#project-modal').classList.contains('open') ||
            $('#shortcuts-overlay').classList.contains('open');
   }
-
-  /* ════════════════════════════════════════════════════════════
-     INTERACTIVE TERMINAL
-     ════════════════════════════════════════════════════════════ */
-
-  let termHistory = [];
-  let termHistIdx = -1;
-
-  function openTerminal() {
-    const overlay = $('#term-overlay');
-    overlay.classList.add('open');
-    if (!$('.term-input')) {
-      printTerm(`<span class="term-info">himanshu@portfolio</span> v1.0.0 — Type <span class="term-cmd">help</span> to see what I can do.\n`);
-    }
-    appendPrompt();
-    setTimeout(() => { const inp = $('.term-input'); if (inp) inp.focus(); }, 50);
-  }
-
-  function closeTerminal() {
-    $('#term-overlay').classList.remove('open');
-  }
-
-  function printTerm(html) {
-    const body = $('#term-body');
-    const line = el('div', { className: 'term-line' }, html);
-    body.appendChild(line);
-    body.scrollTop = body.scrollHeight;
-  }
-
-  function appendPrompt() {
-    const body = $('#term-body');
-    const old = $('.term-prompt-line', body);
-    if (old) old.remove();
-    const line = el('div', { className: 'term-prompt-line' });
-    line.innerHTML = `<span class="term-prompt">himanshu@portfolio:~$</span><input class="term-input" autocomplete="off" spellcheck="false" />`;
-    body.appendChild(line);
-    const inp = line.querySelector('.term-input');
-    inp.addEventListener('keydown', handleTermKey);
-    body.scrollTop = body.scrollHeight;
-    inp.focus();
-  }
-
-  function handleTermKey(e) {
-    if (e.key === 'Enter') {
-      const cmd = e.target.value.trim();
-      const wrap = e.target.parentElement;
-      wrap.outerHTML = `<div class="term-line"><span class="term-prompt">himanshu@portfolio:~$</span> ${escapeHtml(cmd)}</div>`;
-      if (cmd) {
-        termHistory.push(cmd); termHistIdx = termHistory.length;
-        runCommand(cmd);
-      }
-      appendPrompt();
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (termHistory.length && termHistIdx > 0) {
-        termHistIdx--; e.target.value = termHistory[termHistIdx];
-      }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (termHistIdx < termHistory.length - 1) {
-        termHistIdx++; e.target.value = termHistory[termHistIdx];
-      } else {
-        termHistIdx = termHistory.length; e.target.value = '';
-      }
-    } else if (e.key === 'Tab') {
-      e.preventDefault();
-      const partial = e.target.value;
-      const cmds = Object.keys(COMMANDS);
-      const matches = cmds.filter(c => c.startsWith(partial));
-      if (matches.length === 1) e.target.value = matches[0];
-    }
-  }
-
-  function escapeHtml(s) {
-    return s.replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
-  }
-
-  const COMMANDS = {
-    help: () => printTerm([
-      '<span class="term-info">Available commands:</span>',
-      '  <span class="term-cmd">about</span>       — who is this guy',
-      '  <span class="term-cmd">skills</span>      — tech stack',
-      '  <span class="term-cmd">projects</span>    — selected work',
-      '  <span class="term-cmd">experience</span>  — work history',
-      '  <span class="term-cmd">contact</span>     — how to reach me',
-      '  <span class="term-cmd">social</span>      — find me online',
-      '  <span class="term-cmd">resume</span>      — open my resume',
-      '  <span class="term-cmd">theme</span>       — change theme (try: theme ocean)',
-      '  <span class="term-cmd">whoami</span>      — visitor info',
-      '  <span class="term-cmd">date</span>        — current date',
-      '  <span class="term-cmd">echo &lt;msg&gt;</span>   — echo a message',
-      '  <span class="term-cmd">sudo</span>        — try it 😉',
-      '  <span class="term-cmd">clear</span>       — clear terminal',
-      '  <span class="term-cmd">exit</span>        — close terminal',
-    ].join('\n')),
-
-    about: () => printTerm([
-      '<span class="term-success">Himanshu Pratap Singh</span> — Senior Software Engineer @ EY',
-      '',
-      "I'm a results-driven dev with 3+ years building production-grade",
-      'apps in Angular, React, and Node.js — across healthcare, IoT, and',
-      'telehealth. Currently engineering AI-powered code generation at EY.',
-      '',
-      'Currently obsessed with: <span class="term-info">LLM-driven code refactoring</span>',
-    ].join('\n')),
-
-    skills: () => {
-      const cats = ((window.DATA || {}).skills || {}).categories || [];
-      printTerm(cats.map(c =>
-        `<span class="term-info">${c.title}:</span>\n  ${c.pills.join(', ')}`
-      ).join('\n\n'));
-    },
-
-    projects: () => {
-      const projs = ((window.DATA || {}).work || {}).projects || [];
-      printTerm(projs.map(p =>
-        `${p.emoji}  <span class="term-success">${p.title}</span> <span class="term-dim">[${p.domain}]</span>\n   ${p.desc.slice(0, 110)}…`
-      ).join('\n\n'));
-    },
-
-    experience: () => {
-      const jobs = ((window.DATA || {}).experience || {}).jobs || [];
-      printTerm(jobs.map(j =>
-        `<span class="term-success">${j.role}</span> @ <span class="term-info">${j.company}</span>\n  <span class="term-dim">${j.period}</span>\n  ${j.bullets[0]}`
-      ).join('\n\n'));
-    },
-
-    contact: () => printTerm([
-      '<span class="term-info">📧</span> himanshupsingh47@gmail.com',
-      '<span class="term-info">📱</span> +91 7905 359 265',
-      '<span class="term-info">📍</span> Pune, Maharashtra, India',
-      '',
-      'Try: <span class="term-cmd">social</span> for online profiles.',
-    ].join('\n')),
-
-    social: () => printTerm([
-      '<span class="term-info">LinkedIn</span> → <a class="term-link" href="https://www.linkedin.com/in/himanshupratapsingh/" target="_blank" rel="noopener">linkedin.com/in/himanshupratapsingh</a>',
-      '<span class="term-info">Email</span>    → <a class="term-link" href="mailto:himanshupsingh47@gmail.com">himanshupsingh47@gmail.com</a>',
-    ].join('\n')),
-
-    resume: () => { openResume(); printTerm('<span class="term-success">Resume opened in new tab.</span>'); },
-
-    theme: (args) => {
-      const arg = args[0];
-      if (!arg) {
-        printTerm('Available themes: <span class="term-cmd">' + Object.keys(THEMES).join('</span>, <span class="term-cmd">') + '</span>\nUsage: theme &lt;name&gt;');
-        return;
-      }
-      if (THEMES[arg]) { applyTheme(arg); printTerm(`<span class="term-success">✓ Theme set to ${THEMES[arg].label}</span>`); }
-      else printTerm(`<span class="term-err">Unknown theme: ${arg}</span>`);
-    },
-
-    whoami: () => {
-      const visits = parseInt(localStorage.getItem('hps-visits') || '1', 10);
-      printTerm([
-        `visitor (uid: ${Math.floor(Math.random()*9999)})`,
-        `visits from this device: ${visits}`,
-        `user-agent: ${navigator.userAgent.split(' ').slice(-2).join(' ')}`,
-        `tz: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
-      ].join('\n'));
-    },
-
-    date: () => printTerm(new Date().toString()),
-
-    echo: (args) => printTerm(escapeHtml(args.join(' '))),
-
-    sudo: () => printTerm('<span class="term-err">Permission denied. Nice try though 😏</span>'),
-
-    'sudo rm -rf /': () => printTerm('<span class="term-err">Absolutely not.</span>'),
-
-    clear: () => { $('#term-body').innerHTML = ''; },
-
-    exit: () => closeTerminal(),
-
-    ls: () => printTerm('about.md  skills.json  projects/  experience.log  contact.txt  resume.pdf'),
-
-    cat: (args) => {
-      const f = args[0];
-      const map = { 'about.md':'about', 'skills.json':'skills', 'contact.txt':'contact', 'experience.log':'experience' };
-      if (map[f]) COMMANDS[map[f]]();
-      else printTerm(`<span class="term-err">cat: ${f}: No such file</span>`);
-    },
-
-    konami: () => { fireConfetti(); printTerm('<span class="term-success">🎉 Confetti incoming!</span>'); },
-  };
-
-  function runCommand(cmd) {
-    const parts = cmd.split(/\s+/);
-    const head = parts[0].toLowerCase();
-    const args = parts.slice(1);
-    if (cmd.toLowerCase() === 'sudo rm -rf /') return COMMANDS['sudo rm -rf /']();
-    if (COMMANDS[head]) COMMANDS[head](args);
-    else printTerm(`<span class="term-err">command not found: ${escapeHtml(head)}</span> — try <span class="term-cmd">help</span>`);
-  }
-
-  $('#dock-terminal').addEventListener('click', openTerminal);
-  $('#term-overlay').addEventListener('click', e => {
-    if (e.target.id === 'term-overlay') closeTerminal();
-  });
 
   /* ════════════════════════════════════════════════════════════
      EXPOSE DATA + INIT
@@ -935,8 +730,6 @@ ${skills.map(s => `<div class="skill-cat"><strong>${s.title}</strong>${s.pills.j
   }
 
   /* Expose functions globally for HTML onclick handlers */
-  window.openTerminal = openTerminal;
-  window.closeTerminal = closeTerminal;
   window.downloadResume = downloadResume;
   window.buildThemePicker = buildThemePicker;
   window.cycleTheme = cycleTheme;
