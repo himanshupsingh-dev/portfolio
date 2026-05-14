@@ -6,6 +6,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.workers.dev http://localhost:8787; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
   <title>Himanshu Pratap Singh — Software Developer</title>
+  <meta name="description" content="Himanshu Pratap Singh — Senior Software Developer with 3+ years building full-stack web applications across healthcare, IoT, and enterprise domains. Specialises in Angular, React, Node.js, and AI integrations at EY." />
+  <meta property="og:title" content="Himanshu Pratap Singh — Software Developer" />
+  <meta property="og:description" content="Senior Software Developer · Full Stack · AI Integrations. Building impactful web applications for healthcare, IoT, and enterprise clients." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="photo.jpeg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Himanshu Pratap Singh — Software Developer" />
+  <meta name="twitter:description" content="Senior Software Developer · Angular · React · Node.js · AI Integrations." />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%234f8ef7'/%3E%3Cstop offset='1' stop-color='%23a78bfa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='url(%23g)'/%3E%3Ctext x='16' y='23' font-family='Inter,Arial,sans-serif' font-size='19' font-weight='900' fill='white' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +24,14 @@
   <link rel="stylesheet" href="css/ai-agent.css">
 </head>
 <body>
+  <noscript>
+    <div style="position:fixed;inset:0;background:#0b0f1a;color:#f0f4ff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:2rem;z-index:99999;">
+      <div style="font-size:2rem;margin-bottom:1rem;">⚡</div>
+      <h1 style="font-size:1.4rem;margin-bottom:0.75rem;">JavaScript Required</h1>
+      <p style="color:#8892a4;max-width:400px;">This portfolio uses JavaScript to render content. Please enable it in your browser settings to view the site.</p>
+      <p style="margin-top:1.5rem;color:#8892a4;">In the meantime, reach me at <a href="mailto:himanshupsingh47@gmail.com" style="color:#4f8ef7;">himanshupsingh47@gmail.com</a></p>
+    </div>
+  </noscript>
   <!-- Page Loader -->
   <div id="page-loader">
     <div class="pl-wrap">
@@ -28,13 +44,6 @@
       <div id="pl-label" class="pl-label">Loading…</div>
     </div>
   </div>
-
-  <!-- Scroll Progress Bar -->
-  <div id="scroll-progress"></div>
-
-  <!-- Cursor Elements -->
-  <div class="cursor-dot"></div>
-  <div class="cursor-ring"></div>
 
   <!-- Navigation -->
   <nav id="navbar">
@@ -91,7 +100,29 @@
     <button class="dock-btn" id="dock-theme" data-tooltip="Change Color Theme">🎨</button>
     <button class="dock-btn" id="dock-resume" data-tooltip="Download My Resume">⬇️</button>
     <button class="dock-btn" id="dock-shortcuts" data-tooltip="Keyboard Shortcuts">❓</button>
-    <button class="dock-btn" id="dock-ai" data-tooltip="Himanshu's AI">🤖</button>
+  </div>
+
+  <!-- Floating AI Avatar -->
+  <div class="ai-avatar-float" id="ai-avatar-float">
+    <div class="ai-avatar-bubble" id="ai-avatar-bubble">
+      <div class="ai-avatar-bubble-hdr">
+        <div class="ai-avatar-mini-bot" id="ai-avatar-mini-bot"></div>
+        <div class="ai-avatar-bubble-meta">
+          <span class="ai-avatar-bubble-hname">Himanshu's AI</span>
+          <div class="ai-avatar-bubble-status">
+            <span class="ai-online-dot"></span>Online · always available
+          </div>
+        </div>
+        <button class="ai-avatar-bubble-close" id="ai-bubble-close" title="Dismiss">×</button>
+      </div>
+      <p class="ai-avatar-bubble-text">Hey! 👋 Ask me anything about Himanshu's skills, projects, or whether he's available to hire.</p>
+      <div class="ai-avatar-bubble-chips">
+        <button class="ai-avatar-chip" data-question="What is Himanshu's tech stack?">Tech stack</button>
+        <button class="ai-avatar-chip" data-question="Is Himanshu open to new opportunities?">Open to work?</button>
+        <button class="ai-avatar-chip" data-question="Tell me about his best projects">Top projects</button>
+      </div>
+    </div>
+    <button class="ai-avatar-btn" id="ai-avatar-btn" title="Chat with Himanshu's AI" aria-label="Chat with Himanshu's AI"></button>
   </div>
 
   <!-- Theme Popover -->

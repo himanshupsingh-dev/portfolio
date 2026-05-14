@@ -1,0 +1,477 @@
+/* ══════════════════════════════════════════════════════════════
+   1. SKILLS UNIVERSE — Constellation Section
+   ══════════════════════════════════════════════════════════════ */
+
+#skills-universe {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  overflow: hidden;
+  border-top: 1px solid rgba(79, 142, 247, 0.08);
+  border-bottom: 1px solid rgba(79, 142, 247, 0.08);
+  margin-top: -1px;
+}
+
+#skills-universe-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.su-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 3rem 2rem 0;
+  pointer-events: none;
+}
+
+.su-header .section-label {
+  justify-content: center;
+  display: flex;
+}
+
+.su-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0.5rem 0 0.3rem;
+  letter-spacing: -0.02em;
+}
+
+.su-title span {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.su-sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.su-legend {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 2rem 2rem;
+  pointer-events: none;
+}
+
+.su-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  letter-spacing: 0.03em;
+}
+
+.su-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   2. AI COMMAND CENTER — Neural Network + Chat Section
+   ══════════════════════════════════════════════════════════════ */
+
+#ai-command {
+  position: relative;
+  padding: 4rem 2rem;
+  overflow: hidden;
+}
+
+.acc-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.acc-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.acc-title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0.5rem 0 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.acc-title span {
+  background: linear-gradient(135deg, var(--accent), var(--accent3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.acc-sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 550px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Split layout: neural net + chat ────────────────────────── */
+.acc-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  min-height: 480px;
+}
+
+/* ── Neural network container ───────────────────────────────── */
+#acc-neural-container {
+  position: relative;
+  background: rgba(11, 15, 26, 0.5);
+  border: 1px solid rgba(79, 142, 247, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 480px;
+}
+
+#acc-neural-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+.acc-neural-label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+  z-index: 2;
+  background: rgba(11, 15, 26, 0.7);
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(79, 142, 247, 0.12);
+}
+
+.acc-neural-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent3);
+  box-shadow: 0 0 6px var(--accent3);
+  animation: ai-led-pulse 2s ease-in-out infinite;
+}
+
+/* ── Chat terminal ──────────────────────────────────────────── */
+.acc-chat {
+  display: flex;
+  flex-direction: column;
+  background: rgba(11, 15, 26, 0.85);
+  border: 1px solid rgba(79, 142, 247, 0.15);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+}
+
+.acc-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1rem;
+  background: rgba(79, 142, 247, 0.06);
+  border-bottom: 1px solid rgba(79, 142, 247, 0.1);
+  flex-shrink: 0;
+}
+
+.acc-chat-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.acc-chat-title-icon {
+  font-size: 1.1rem;
+}
+
+.acc-chat-title-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.acc-chat-title-sub {
+  font-size: 0.65rem;
+  color: var(--accent3);
+  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.acc-chat-counter {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
+
+/* ── Messages ───────────────────────────────────────────────── */
+#acc-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+#acc-messages::-webkit-scrollbar { width: 4px; }
+#acc-messages::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+.acc-msg {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 95%;
+  animation: acc-msg-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes acc-msg-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.acc-msg-user { align-self: flex-end; flex-direction: row-reverse; }
+.acc-msg-ai   { align-self: flex-start; }
+
+.acc-msg-prefix {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  padding-top: 0.35rem;
+}
+
+.acc-msg-user .acc-msg-prefix { color: var(--accent2); }
+.acc-msg-ai .acc-msg-prefix   { color: var(--accent3); }
+
+.acc-msg-text {
+  font-size: 0.82rem;
+  line-height: 1.65;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  word-break: break-word;
+}
+
+.acc-msg-user .acc-msg-text {
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(167, 139, 250, 0.2);
+  color: var(--text);
+  border-bottom-right-radius: 3px;
+}
+
+.acc-msg-ai .acc-msg-text {
+  background: rgba(52, 211, 153, 0.06);
+  border: 1px solid rgba(52, 211, 153, 0.12);
+  color: var(--text);
+  border-bottom-left-radius: 3px;
+}
+
+/* Typing dots */
+.acc-typing-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.6rem 1rem !important;
+  min-width: 54px;
+}
+
+.acc-typing-dots span {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--accent3);
+  border-radius: 50%;
+  opacity: 0.55;
+  animation: ai-dot 1.2s ease-in-out infinite;
+}
+.acc-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.acc-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* ── Quick-action chips ─────────────────────────────────────── */
+.acc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0 1rem 0.6rem;
+  border-bottom: 1px solid rgba(79, 142, 247, 0.06);
+}
+
+.acc-chip {
+  background: rgba(79, 142, 247, 0.06);
+  border: 1px solid rgba(79, 142, 247, 0.15);
+  border-radius: 20px;
+  color: var(--accent);
+  font-size: 0.67rem;
+  font-family: var(--mono);
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.acc-chip:hover {
+  background: rgba(79, 142, 247, 0.15);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(79, 142, 247, 0.15);
+}
+
+/* ── Input area ─────────────────────────────────────────────── */
+.acc-input-area {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.8rem;
+  border-top: 1px solid rgba(79, 142, 247, 0.08);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.acc-input-prefix {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--accent);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+#acc-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  outline: none;
+  padding: 0.3rem 0;
+}
+
+#acc-input::placeholder {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+#acc-send {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s;
+}
+
+#acc-send:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 15px rgba(79, 142, 247, 0.4);
+}
+
+#acc-send:active { transform: scale(0.94); }
+
+/* ── Status bar at bottom of neural container ───────────────── */
+.acc-neural-status {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: rgba(11, 15, 26, 0.8);
+  border-top: 1px solid rgba(79, 142, 247, 0.08);
+  z-index: 2;
+}
+
+.acc-status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.acc-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent3);
+  box-shadow: 0 0 4px var(--accent3);
+}
+
+.acc-status-dot.blue {
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent);
+}
+
+.acc-status-dot.purple {
+  background: var(--accent2);
+  box-shadow: 0 0 4px var(--accent2);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   3. RESPONSIVE
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+  .acc-split {
+    grid-template-columns: 1fr;
+  }
+
+  #acc-neural-container {
+    min-height: 300px;
+  }
+
+  #skills-universe {
+    min-height: 450px;
+  }
+}
+
+@media (max-width: 600px) {
+  #ai-command { padding: 2rem 1rem; }
+
+  .acc-chat-header { padding: 0.6rem 0.8rem; }
+  .acc-chips { padding: 0 0.8rem 0.5rem; gap: 0.3rem; }
+  .acc-chip { font-size: 0.62rem; padding: 0.2rem 0.55rem; }
+
+  #acc-neural-container { min-height: 250px; }
+
+  .su-legend { gap: 0.5rem; padding: 1rem; }
+  .su-legend-item { font-size: 0.65rem; }
+}

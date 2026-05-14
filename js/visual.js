@@ -437,6 +437,179 @@ document.addEventListener('DOMContentLoaded', () => {
 
   resize(); draw();
 })();
+
+/* HERO-RIGHT: Interactive multi-color particle canvas */
+(function() {
+  const heroRight = document.getElementById('hero-right');
+  const cvs = document.getElementById('hero-right-canvas');
+  if (!cvs || !heroRight) return;
+  const ctx = cvs.getContext('2d');
+
+  let W, H, t = 0;
+  const mouse = { x: -9999, y: -9999, active: false };
+  const COLORS = [
+    { r: 79,  g: 142, b: 247 },
+    { r: 167, g: 139, b: 250 },
+    { r: 52,  g: 211, b: 153 },
+    { r: 251, g: 191, b: 36  },
+    { r: 239, g: 68,  b: 68  },
+  ];
+
+  const orbs = [], particles = [], pulses = [];
+
+  function resize() {
+    const r = heroRight.getBoundingClientRect();
+    W = cvs.width  = r.width;
+    H = cvs.height = r.height;
+  }
+
+  function mkOrb(i) {
+    const c = COLORS[i % COLORS.length];
+    return {
+      x: W * (0.15 + Math.random() * 0.7),
+      y: H * (0.15 + Math.random() * 0.7),
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      r: 90 + Math.random() * 90,
+      c, phase: Math.random() * Math.PI * 2,
+    };
+  }
+
+  function mkParticle() {
+    const c = COLORS[Math.floor(Math.random() * COLORS.length)];
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.45,
+      vy: (Math.random() - 0.5) * 0.45,
+      r: Math.random() * 1.8 + 0.8,
+      c, a: Math.random() * 0.45 + 0.3,
+    };
+  }
+
+  function init() {
+    resize();
+    orbs.length = 0; particles.length = 0;
+    for (let i = 0; i < 5; i++) orbs.push(mkOrb(i));
+    for (let i = 0; i < 38; i++) particles.push(mkParticle());
+  }
+
+  function draw() {
+    t += 0.011;
+    ctx.clearRect(0, 0, W, H);
+
+    /* drifting glow orbs */
+    orbs.forEach(o => {
+      o.x += o.vx; o.y += o.vy;
+      if (o.x < -o.r) o.x = W + o.r;
+      if (o.x > W + o.r) o.x = -o.r;
+      if (o.y < -o.r) o.y = H + o.r;
+      if (o.y > H + o.r) o.y = -o.r;
+      const sc = 1 + Math.sin(t * 0.45 + o.phase) * 0.14;
+      const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r * sc);
+      g.addColorStop(0,   `rgba(${o.c.r},${o.c.g},${o.c.b},0.16)`);
+      g.addColorStop(0.5, `rgba(${o.c.r},${o.c.g},${o.c.b},0.07)`);
+      g.addColorStop(1,   `rgba(${o.c.r},${o.c.g},${o.c.b},0)`);
+      ctx.beginPath();
+      ctx.arc(o.x, o.y, o.r * sc, 0, Math.PI * 2);
+      ctx.fillStyle = g; ctx.fill();
+    });
+
+    const LINK = 110;
+
+    /* connections + pulse spawning */
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < LINK) {
+          const alpha = (1 - d / LINK) * 0.22;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(${a.c.r},${a.c.g},${a.c.b},${alpha})`;
+          ctx.lineWidth = 0.7; ctx.stroke();
+          if (Math.random() < 0.0004)
+            pulses.push({ ax: a.x, ay: a.y, bx: b.x, by: b.y, pt: 0, c: a.c });
+        }
+      }
+    }
+
+    /* travelling data pulses */
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const p = pulses[i];
+      p.pt += 0.028;
+      if (p.pt > 1) { pulses.splice(i, 1); continue; }
+      const px = p.ax + (p.bx - p.ax) * p.pt;
+      const py = p.ay + (p.by - p.ay) * p.pt;
+      ctx.beginPath();
+      ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${0.95 - p.pt * 0.6})`;
+      ctx.fill();
+    }
+
+    /* particles */
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+
+      /* mouse repulsion */
+      if (mouse.active) {
+        const dx = p.x - mouse.x, dy = p.y - mouse.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 85 && d > 0) {
+          const f = (85 - d) / 85 * 0.9;
+          p.vx += dx / d * f; p.vy += dy / d * f;
+          const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+          if (spd > 2.8) { p.vx = p.vx / spd * 2.8; p.vy = p.vy / spd * 2.8; }
+        }
+      }
+
+      const gr = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 4.5);
+      gr.addColorStop(0, `rgba(${p.c.r},${p.c.g},${p.c.b},${p.a * 0.55})`);
+      gr.addColorStop(1, `rgba(${p.c.r},${p.c.g},${p.c.b},0)`);
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = gr; ctx.fill();
+
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${p.a})`;
+      ctx.fill();
+    });
+
+    /* mouse connection burst */
+    if (mouse.active) {
+      particles.forEach(p => {
+        const dx = p.x - mouse.x, dy = p.y - mouse.y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 115) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${(1 - d / 115) * 0.45})`;
+          ctx.lineWidth = 0.9; ctx.stroke();
+        }
+      });
+      const mg = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 28);
+      mg.addColorStop(0, 'rgba(79,142,247,0.28)');
+      mg.addColorStop(1, 'rgba(79,142,247,0)');
+      ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 28, 0, Math.PI * 2);
+      ctx.fillStyle = mg; ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  heroRight.addEventListener('mousemove', e => {
+    const rect = heroRight.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  }, { passive: true });
+  heroRight.addEventListener('mouseleave', () => { mouse.active = false; });
+  window.addEventListener('resize', () => { init(); }, { passive: true });
+
+  init(); draw();
+})();
 });
 
 /* ════════════════════════════════════════════════════════════════

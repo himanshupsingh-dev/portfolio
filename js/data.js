@@ -274,7 +274,7 @@ const DATA = {
   /* ── Footer ────────────────────────────────────────────── */
   footer: {
     logo:      'hps.dev',
-    copy:      '© 2025 Himanshu Pratap Singh. All rights reserved.',
+    copy:      '© 2025–2026 Himanshu Pratap Singh. All rights reserved.',
     navLinks:  [
       { label: 'About',      href: '#about' },
       { label: 'Skills',     href: '#skills' },
@@ -455,21 +455,88 @@ function renderHero() {
         </div>`).join('')}
     </div>`;
 
-  /* Right panel */
-  const codeLines = h.codeCard.lines
-    .map((l, i) => `<div class="code-line"><span class="code-ln">${i + 1}</span><span>${l}</span></div>`)
-    .join('');
-
+  /* Right panel – AI Chat Widget */
   document.getElementById('hero-right').innerHTML =
+    `<canvas id="hero-right-canvas" class="hero-right-canvas"></canvas>
+    <div class="hr-orb hr-orb-1"></div>
+    <div class="hr-orb hr-orb-2"></div>
+    <div class="hr-orb hr-orb-3"></div>
+    <div class="hr-dot-grid"></div>` +
     h.floatTags.map(t => `<span class="float-tag">${t}</span>`).join('') +
     createRobotSVG('robot-deco lg float-slow', 'heroBotGrad', 'rocket') +
-    `<div class="code-card">
-      <div class="code-card-header">
-        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-        <span class="code-filename">${h.codeCard.filename}</span>
+    `<div class="ai-chat-glow"></div>
+    <div class="ai-chat-card">
+      <div class="ai-chat-grid-bg"></div>
+      <div class="ai-chat-header">
+        <div class="ai-avatar-wrap">
+          <div class="ai-avatar-ring"></div>
+          <div class="ai-avatar">🤖</div>
+        </div>
+        <div class="ai-header-info">
+          <div class="ai-header-name">Himanshu<span class="ai-header-dot">'s</span> AI</div>
+          <div class="ai-header-status">
+            <span class="ai-status-dot"></span>
+            <span class="ai-status-text">Neural link active</span>
+          </div>
+        </div>
+        <div class="ai-header-right">
+          <div class="ai-live-badge"><span class="ai-live-dot"></span>LIVE</div>
+          <div class="ai-header-badge">LLaMA 3.3</div>
       </div>
-      ${codeLines}
+      </div>
+      <div class="ai-scan-line"></div>
+      <div class="ai-chat-body" id="ai-chat-body">
+        <div class="ai-msg" id="ai-m1">
+          <div class="ai-bubble-ai">
+            <span class="ai-typewriter" id="ai-typewriter"></span><span class="ai-cursor">▋</span>
+          </div>
+        </div>
+        <div class="ai-chips" id="ai-chips" style="opacity:0;">
+          <button class="ai-chip" onclick="window.openAIChatWithMessage && window.openAIChatWithMessage('Tell me about his top projects')">🚀 Projects</button>
+          <button class="ai-chip" onclick="window.openAIChatWithMessage && window.openAIChatWithMessage('What AI work has Himanshu done?')">🧠 AI work</button>
+          <button class="ai-chip" onclick="window.openAIChatWithMessage && window.openAIChatWithMessage('How can I get in touch with Himanshu?')">📬 Contact</button>
+        </div>
+      </div>
+      <div class="ai-stats-row">
+        <div class="ai-stat"><span class="ai-stat-dot"></span><span>Avg reply</span><strong>&lt; 1s</strong></div>
+        <div class="ai-stat-divider"></div>
+        <div class="ai-stat"><span class="ai-stat-dot green"></span><span>Uptime</span><strong>99.9%</strong></div>
+        <div class="ai-stat-divider"></div>
+        <div class="ai-stat"><span class="ai-stat-dot purple"></span><span>Topics</span><strong>15+</strong></div>
+      </div>
+      <div class="ai-chat-footer">
+        <div class="ai-input-row">
+          <input type="text" id="hero-chat-input" class="ai-fake-input"
+            placeholder="Ask about skills, projects, experience..."
+            autocomplete="off" maxlength="500">
+          <button id="hero-send-btn" class="ai-send-btn" aria-label="Send">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="white"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+          </button>
+        </div>
+      </div>
     </div>`;
+
+  /* Typewriter + chip reveal */
+  const text = "Hi! 👋 I'm Himanshu's AI assistant. Ask me anything about his skills, experience, projects, or how to get in touch!";
+  const tw = document.getElementById('ai-typewriter');
+  const cursor = document.querySelector('.ai-cursor');
+  const m1 = document.getElementById('ai-m1');
+  const chips = document.getElementById('ai-chips');
+
+  setTimeout(() => {
+    if (m1) m1.classList.add('ai-msg-visible');
+    let i = 0;
+    const type = () => {
+      if (!tw) return;
+      tw.textContent = text.slice(0, i++);
+      if (i <= text.length) requestAnimationFrame(() => setTimeout(type, 28));
+      else {
+        if (cursor) cursor.style.animation = 'ai-blink 1s step-end infinite';
+        if (chips) { chips.style.transition = 'opacity 0.5s'; chips.style.opacity = '1'; }
+      }
+    };
+    type();
+  }, 600);
 }
 
 function renderAbout() {
@@ -610,7 +677,10 @@ function renderContact() {
         ${c.cards.map(card => `
           <a href="${card.href}" class="contact-card" ${card.external ? 'target="_blank" rel="noopener"' : ''}>
             <div class="contact-card-icon">${card.icon}</div>
-            <div class="contact-card-value">${card.value}</div>
+            <div>
+              <div class="contact-card-label">${card.label}</div>
+              <div class="contact-card-value">${card.value}</div>
+            </div>
           </a>`).join('')}
       </div>
     </div>`;
@@ -667,11 +737,6 @@ function init() {
       a.style.color = a.getAttribute('href') === '#' + current ? 'var(--text)' : '';
     });
   });
-}
-
-/* Mobile menu */
-function toggleMenu() {
-  document.getElementById('navlinks').classList.toggle('open');
 }
 
 window.DATA = DATA;

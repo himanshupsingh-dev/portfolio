@@ -88,14 +88,36 @@ ${ct.map(c => `- ${c.name} — ${c.issuer}`).join('\n')}
   function openAIChat() {
     $('ai-chat-panel').classList.add('open');
     $('ai-msg-input').focus();
+    /* hide avatar while chat is visible */
+    const av  = document.getElementById('ai-avatar-float');
+    const bub = document.getElementById('ai-avatar-bubble');
+    if (av)  av.classList.add('chat-open');
+    if (bub) bub.classList.remove('visible');
   }
 
   function closeAIChat() {
     $('ai-chat-panel').classList.remove('open');
+    /* restore avatar */
+    const av = document.getElementById('ai-avatar-float');
+    if (av) av.classList.remove('chat-open');
   }
 
-  window.openAIChat  = openAIChat;
-  window.closeAIChat = closeAIChat;
+  /* ── Open chat with a pre-filled question ─────────────────── */
+  function openAIChatWithMessage(msg) {
+    openAIChat();
+    if (msg) {
+      const input = $('ai-msg-input');
+      if (input) {
+        input.value = msg;
+        input.dispatchEvent(new Event('input')); /* resize height */
+        input.focus();
+      }
+    }
+  }
+
+  window.openAIChat            = openAIChat;
+  window.closeAIChat           = closeAIChat;
+  window.openAIChatWithMessage = openAIChatWithMessage;
 
   /* ── Append a message bubble ───────────────────────────────── */
   function appendMessage(role, html, bubbleId) {
@@ -235,6 +257,187 @@ ${ct.map(c => `- ${c.name} — ${c.issuer}`).join('\n')}
     }
   }
 
+  /* ── Typewriter bar in hero ────────────────────────────────── */
+  function initTypewriter() {
+    const el = document.getElementById('hero-ai-typewriter');
+    if (!el) return;
+
+    const questions = [
+      '"What is his tech stack?"',
+      '"Is he open to new opportunities?"',
+      '"What has he built with AI?"',
+      '"How many years of experience?"',
+      '"Tell me about his top projects."',
+    ];
+
+    let qi = 0, ci = 0, deleting = false;
+
+    function tick() {
+      const q = questions[qi];
+      if (!deleting) {
+        ci++;
+        el.textContent = q.slice(0, ci);
+        if (ci >= q.length) { deleting = true; setTimeout(tick, 2200); return; }
+        setTimeout(tick, 62);
+      } else {
+        ci--;
+        el.textContent = q.slice(0, ci);
+        if (ci <= 0) {
+          deleting = false;
+          qi = (qi + 1) % questions.length;
+          setTimeout(tick, 400);
+          return;
+        }
+        setTimeout(tick, 33);
+      }
+    }
+
+    /* start after page intro animation settles */
+    setTimeout(tick, 1600);
+  }
+
+  /* ── Floating avatar + speech bubble ──────────────────────── */
+  function initFloatingAvatar() {
+    const avatar  = document.getElementById('ai-avatar-float');
+    const btn     = document.getElementById('ai-avatar-btn');
+    const bubble  = document.getElementById('ai-avatar-bubble');
+    const closeB  = document.getElementById('ai-bubble-close');
+    const miniBot = document.getElementById('ai-avatar-mini-bot');
+    if (!avatar || !btn || !bubble) return;
+
+    /* inject the portfolio's own robot SVG into the button */
+    if (typeof createRobotSVG === 'function') {
+      btn.innerHTML     = createRobotSVG('avatar-robot', 'avatarBotGrad', 'waving');
+      if (miniBot) miniBot.innerHTML = createRobotSVG('mini-robot', 'miniBotGrad', 'happy');
+    }
+
+    /* show bubble after 4 s if chat not already open */
+    setTimeout(() => {
+      if (!$('ai-chat-panel').classList.contains('open')) {
+        bubble.classList.add('visible');
+      }
+    }, 4000);
+
+    /* auto-hide bubble after another 12 s */
+    setTimeout(() => bubble.classList.remove('visible'), 16000);
+
+    /* lift avatar above the scroll-to-top button when it appears */
+    const scrollTopBtn = document.getElementById('scrolltop');
+    if (scrollTopBtn) {
+      const stObs = new MutationObserver(() => {
+        avatar.classList.toggle('above-scrolltop', scrollTopBtn.classList.contains('visible'));
+      });
+      stObs.observe(scrollTopBtn, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    /* close button */
+    if (closeB) {
+      closeB.addEventListener('click', e => {
+        e.stopPropagation();
+        bubble.classList.remove('visible');
+      });
+    }
+
+    /* avatar button — open chat */
+    btn.addEventListener('click', () => {
+      bubble.classList.remove('visible');
+      openAIChat();
+    });
+
+    /* quick-question chips */
+    document.querySelectorAll('.ai-avatar-chip').forEach(chip => {
+      chip.addEventListener('click', e => {
+        e.stopPropagation();
+        const q = chip.dataset.question || chip.textContent.trim();
+        bubble.classList.remove('visible');
+        openAIChatWithMessage(q);
+      });
+    });
+  }
+
+  /* ── Hero card mini-chat ──────────────────────────────────── */
+  function setupHeroChat() {
+    const heroInput = document.getElementById('hero-chat-input');
+    const heroSend  = document.getElementById('hero-send-btn');
+    if (!heroInput || !heroSend) return;
+
+    let heroHistory  = [];
+    let heroStreaming = false;
+
+    async function heroSendMessage() {
+      if (heroStreaming) return;
+      const text = heroInput.value.trim();
+      if (!text) return;
+
+      const chatBody = document.getElementById('ai-chat-body');
+      if (!chatBody) return;
+
+      heroInput.value = '';
+
+      const userEl = document.createElement('div');
+      userEl.className = 'ai-msg ai-msg-visible';
+      userEl.innerHTML = `<div class="ai-bubble-user">${sanitize(text)}</div>`;
+      chatBody.appendChild(userEl);
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      heroHistory.push({ role: 'user', content: text });
+      heroStreaming  = true;
+      heroSend.disabled = true;
+
+      const aiEl = document.createElement('div');
+      aiEl.className = 'ai-msg ai-msg-visible';
+      aiEl.innerHTML = '<div class="ai-bubble-ai"><span class="hero-typing">···</span></div>';
+      chatBody.appendChild(aiEl);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      const aiBubble = aiEl.querySelector('.ai-bubble-ai');
+
+      try {
+        const res = await fetch(WORKER_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: [{ role: 'system', content: buildSystemPrompt() }, ...heroHistory],
+            stream: true
+          })
+        });
+
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+        let fullText  = '';
+        aiBubble.innerHTML = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          for (const line of decoder.decode(value).split('\n')) {
+            if (!line.startsWith('data: ')) continue;
+            const data = line.slice(6);
+            if (data === '[DONE]') break;
+            try {
+              const delta = JSON.parse(data).choices?.[0]?.delta?.content || '';
+              fullText += delta;
+              aiBubble.innerHTML = renderText(fullText);
+              chatBody.scrollTop = chatBody.scrollHeight;
+            } catch {}
+          }
+        }
+        heroHistory.push({ role: 'assistant', content: fullText });
+      } catch {
+        aiBubble.textContent = '⚠️ Something went wrong. Please try again.';
+      } finally {
+        heroStreaming = false;
+        heroSend.disabled = false;
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }
+
+    heroSend.addEventListener('click', heroSendMessage);
+    heroInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); heroSendMessage(); }
+    });
+  }
+
   /* ── Init ─────────────────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', () => {
     updateCounter();
@@ -264,6 +467,23 @@ ${ct.map(c => `- ${c.name} — ${c.issuer}`).join('\n')}
         closeAIChat();
       }
     });
+
+    /* hero typewriter bar click */
+    const heroBar = document.getElementById('hero-ai-bar');
+    if (heroBar) {
+      const open = () => {
+        const tw = document.getElementById('hero-ai-typewriter');
+        const q  = tw ? tw.textContent.replace(/['"]/g, '').trim() : '';
+        openAIChatWithMessage(q || 'Tell me about Himanshu');
+      };
+      heroBar.addEventListener('click', open);
+      heroBar.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') open(); });
+    }
+
+    /* kick off new interactive features */
+    initTypewriter();
+    initFloatingAvatar();
+    setupHeroChat();
   });
 
 })();
