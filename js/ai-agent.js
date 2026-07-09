@@ -26,7 +26,7 @@ const WORKER_URL = 'https://ai-proxy.himanshu-ai-proxy.workers.dev';
 
 ## About Himanshu
 - Full Name: Himanshu Pratap Singh
-- Role: Senior Software Developer — Frontend · Backend · AI Integrations
+- Role: Senior Software Engineer — Frontend · Backend · AI Integrations
 - Location: Pune, Maharashtra, India
 - Availability: ${d.hero.badge}
 - Summary: ${d.hero.description}
@@ -54,12 +54,10 @@ ${pr.map(p => `${p.title} (${p.domain})\n${p.desc}\nStack: ${p.techs.join(', ')}
 ${ct.map(c => `- ${c.name} — ${c.issuer}`).join('\n')}
 
 ## Education
-- B.E. Computer Science — MVJ College of Engineering, 2022
+- B.E. Computer Science — MVJ College of Engineering, Bangalore (2018–2022)
 
 ## Contact
-- Email: ${co[0].value}
-- LinkedIn: ${co[1].href}
-- Phone: ${co[2].value}
+${co.map(c => `- ${c.label}: ${c.value}${c.href && c.href.startsWith('http') ? ` (${c.href})` : ''}`).join('\n')}
 
 ## Instructions
 1. Answer questions about Himanshu's skills, experience, projects, education, certifications, and availability only.
@@ -436,6 +434,13 @@ ${ct.map(c => `- ${c.name} — ${c.issuer}`).join('\n')}
     heroInput.addEventListener('keydown', e => {
       if (e.key === 'Enter') { e.preventDefault(); heroSendMessage(); }
     });
+
+    /* suggestion chips ask their question inline through the hero chat */
+    window.heroAskQuestion = msg => {
+      if (!msg || heroStreaming) return;
+      heroInput.value = msg;
+      heroSendMessage();
+    };
   }
 
   /* ── Init ─────────────────────────────────────────────────── */

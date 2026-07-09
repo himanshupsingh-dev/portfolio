@@ -5,7 +5,7 @@ const DATA = {
 
   /* ── Site meta ─────────────────────────────────────────── */
   site: {
-    pageTitle: 'Himanshu Pratap Singh — Software Developer',
+    pageTitle: 'Himanshu Pratap Singh — Senior Software Engineer',
     logo:      'hps.dev',
     logoMark:  '.',
     navLinks: [
@@ -24,15 +24,15 @@ const DATA = {
     badge:       'Available for opportunities',
     firstName:   'Himanshu',
     lastName:    'Pratap Singh',
-    role:        'Senior Software Developer',
+    role:        'Senior Software Engineer',
     roleExtras:  'Frontend · Backend · AI Integrations',
-    description: 'From real-time healthcare portals to large-scale IoT dashboards — I build software that handles the hard parts. 3+ years across the full stack, now at EY engineering OpenAI integrations that help enterprises modernize legacy systems at speed.',
+    description: 'From real-time healthcare portals to large-scale IoT dashboards — I build software that handles the hard parts. 4 years across the full stack, now at EY engineering OpenAI integrations that help enterprises modernize legacy systems at speed.',
     cta: [
       { label: 'View My Work ↓', href: '#work',    cls: 'btn-primary' },
       { label: 'Get In Touch →', href: '#contact', cls: 'btn-secondary' },
     ],
     stats: [
-      { num: '3', suffix: '+', label: 'Years Experience' },
+      { num: '4', suffix: '', label: 'Years Experience' },
       { num: '10', suffix: '+', label: 'Tech Stacks' },
       { num: '5', suffix: '+', label: 'Certifications' },
     ],
@@ -47,8 +47,8 @@ const DATA = {
       lines: [
         `<span class="kw">const</span> <span class="fn">developer</span> = {`,
         `&nbsp;&nbsp;<span class="obj">name</span>: <span class="str">"Himanshu Pratap Singh"</span>,`,
-        `&nbsp;&nbsp;<span class="obj">role</span>: <span class="str">"Senior Software Developer"</span>,`,
-        `&nbsp;&nbsp;<span class="obj">experience</span>: <span class="num">3</span>,`,
+        `&nbsp;&nbsp;<span class="obj">role</span>: <span class="str">"Senior Software Engineer"</span>,`,
+        `&nbsp;&nbsp;<span class="obj">experience</span>: <span class="num">4</span>,`,
         `&nbsp;&nbsp;<span class="obj">stack</span>: [`,
         `&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Angular"</span>, <span class="str">"React"</span>, <span class="str">"Node.js"</span>,`,
         `&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"TypeScript"</span>, <span class="str">"GraphQL"</span>,`,
@@ -65,7 +65,7 @@ const DATA = {
     title:        'Full Stack Developer.<br>Problem Solver.<br>Continuous Learner.',
     photo:        'photo.jpeg',
     paragraphs: [
-      "I'm a results-driven Full Stack Developer with 3+ years of experience building end-to-end web applications — from pixel-perfect UIs to scalable backend APIs and integrations.",
+      "I'm a results-driven Senior Software Engineer with 4 years of experience building end-to-end web applications — from pixel-perfect UIs to scalable backend services in Node.js and .NET.",
       "I thrive on building things that matter — from real-time healthcare portals with role-based access control, to large-scale IoT dashboards tracking thousands of devices, to telehealth platforms connecting patients and doctors.",
       "Currently at EY as a Senior Software Engineer, I'm engineering OpenAI API integrations to modernize legacy systems and accelerate development workflows using AI-driven code refactoring.",
     ],
@@ -73,7 +73,7 @@ const DATA = {
       { icon: '📍', label: 'Location',     value: 'Pune, Maharashtra' },
       { icon: '🏢', label: 'Current Role', value: 'Sr. Software Engineer @ EY' },
       { icon: '🎓', label: 'Education',    value: 'BE Computer Science' },
-      { icon: '🏆', label: 'Recognition',  value: 'Extra Mile Award 2023' },
+      { icon: '🏆', label: 'Recognition',  value: 'EY Achiever Extraordinaire 2026<br>Extra Mile Award 2023' },
     ],
   },
 
@@ -91,7 +91,12 @@ const DATA = {
       {
         icon: '🔧', iconBg: 'rgba(52,211,153,0.15)',
         title: 'Backend & APIs', sub: 'Server & Integration Layer',
-        pills: ['Node.js','.NET Core','ASP.NET Core','GraphQL','RESTful APIs','JWT Auth','WebSockets','OpenAI API','JSON'],
+        pills: ['Node.js','.NET Core','ASP.NET Core','GraphQL','RESTful APIs','JWT Auth','WebSockets','JSON'],
+      },
+      {
+        icon: '🤖', iconBg: 'rgba(6,182,212,0.15)',
+        title: 'AI Tools & Integration', sub: 'LLMs & AI-Driven Development',
+        pills: ['OpenAI API','Claude','GitHub Copilot','Azure AI','Prompt Engineering','AI Code Generation & Refactoring'],
       },
       {
         icon: '💻', iconBg: 'rgba(167,139,250,0.15)',
@@ -101,7 +106,7 @@ const DATA = {
       {
         icon: '🚀', iconBg: 'rgba(251,191,36,0.15)',
         title: 'DevOps & Tools', sub: 'CI/CD & Version Control',
-        pills: ['Docker','GitLab','GitHub','Gerrit','Jenkins','Tomcat','Jira','GitHub Copilot','Claude AI'],
+        pills: ['Docker','GitLab','GitHub','Gerrit','Jenkins','Tomcat','CI/CD','Jira'],
       },
       {
         icon: '🧪', iconBg: 'rgba(239,68,68,0.15)',
@@ -120,18 +125,19 @@ const DATA = {
   experience: {
     sectionLabel: 'Career Journey',
     title:        'Work Experience',
-    subtitle:     '3+ years of building production-grade solutions across enterprise clients in healthcare, telecom, and IoT.',
+    subtitle:     '4 years of building production-grade solutions across enterprise clients in healthcare, telecom, and IoT.',
     jobs: [
       {
         company: 'EY — Ernst & Young',
         role:    'Senior Software Engineer',
         period:  'Sep 2025 — Present',
         bullets: [
-          'Engineering OpenAI API integrations for automated code generation within legacy projects, enabling an accelerated modernization lifecycle.',
-          'Collaborating with cross-functional teams to define integration requirements and implementing AI-driven solutions for code refactoring and generation at scale.',
+          'Developing full-stack features for legacy application modernization — building Angular front-end components while contributing to backend services in .NET and C# — accelerating delivery across the stack.',
+          'Leveraging GitHub Copilot with custom instructions and reusable prompt templates to automate recurring development tasks, improving code consistency and throughput.',
+          'Engineering OpenAI API integrations for automated code generation and refactoring within legacy projects, streamlining the development lifecycle and reducing manual effort.',
           'Developing a full-stack Candidate Hiring Management tool using .NET Core and Angular, featuring interactive stakeholder dashboards that surface bottlenecks across recruitment stages through real-time charts and KPIs.',
         ],
-        tags: ['OpenAI API','AI Integration','.NET Core','Angular','Hiring Analytics','Code Generation','Legacy Modernization'],
+        tags: ['Angular','.NET Core','C#','OpenAI API','GitHub Copilot','AI Integration','Legacy Modernization','Hiring Analytics'],
       },
       {
         company: 'TATA Elxsi',
@@ -139,13 +145,12 @@ const DATA = {
         period:  'Nov 2022 — Jul 2025',
         note:    'Delivered multiple enterprise-grade client solutions across healthcare, IoT, and telehealth domains.',
         bullets: [
-          'Built responsive, accessible UI components using Angular 19, Tailwind CSS, SCSS and TypeScript for a secure healthcare portal with role-based access control via Keycloak.',
-          'Integrated GraphQL APIs for real-time events and notifications; built a custom video streaming module using Shaka Player with reactive state management via RxJS.',
-          'Developed a large-scale IoT portal for real-time device tracking using Angular 16, JWT authentication, Google Maps API integration, and Docker deployments.',
-          'Built a telehealth web solution with React, Material UI, and Amazon Chime SDK for secure real-time video conferencing between patients and doctors.',
-          'Created responsive interfaces for a clinical trials platform using Angular 16 and Material UI, with JSON-based data flows and unit testing.',
+          'Baxter, Bangalore (Jan 2025 – Jul 2025): Built responsive, accessible UI for a secure healthcare portal using Angular 19, Tailwind CSS and TypeScript, with Keycloak-based login and role-based rendering; integrated GraphQL APIs for real-time events and a custom Shaka Player video streaming module with RxJS.',
+          'Ooredoo, Qatar (Feb 2024 – Dec 2024): Developed a large-scale IoT portal for real-time device tracking using Angular 16 with JWT authentication, integrating Google Maps and Ericsson Aeris APIs via Node.js for live geolocation; managed deployments with Docker.',
+          'TEngage Telehealth Platform (Feb 2023 – Jan 2024): Built a telehealth web solution with React, Material UI and Amazon Chime SDK for secure video conferencing between patients, doctors, and hospital staff.',
+          'Smart Clinical Trials Platform (Nov 2022 – Jan 2023): Created responsive interfaces for pharmaceutical trial data management using Angular 16 and Material UI, with JSON-based data flows and unit testing.',
         ],
-        tags: ['Angular 16/19','React','GraphQL','Keycloak','RxJS','JWT','Docker','Amazon Chime SDK','Google Maps API'],
+        tags: ['Angular 16/19','React','GraphQL','Keycloak','RxJS','Node.js','JWT','Docker','Amazon Chime SDK','Google Maps API','Ericsson Aeris APIs'],
       },
       {
         company: 'Diagonal.ai',
@@ -171,7 +176,7 @@ const DATA = {
         domain:     'Healthcare',
         domainStyle:'background:rgba(79,142,247,0.1);color:var(--accent)',
         title:      'Secure Healthcare Portal',
-        desc:       'Enterprise-grade healthcare portal with role-based access control, real-time notifications, multi-hospital dynamic deployments, and a custom video streaming module.',
+        desc:       'Enterprise-grade healthcare portal built for Baxter with role-based access control, real-time notifications, multi-hospital dynamic deployments, and a custom video streaming module.',
         techs:      ['Angular 19','TypeScript','GraphQL','Keycloak','Tailwind CSS','Shaka Player','RxJS','Jest'],
       },
       {
@@ -180,15 +185,15 @@ const DATA = {
         domain:     'IoT',
         domainStyle:'background:rgba(52,211,153,0.1);color:var(--accent3)',
         title:      'IoT Device Web Portal',
-        desc:       'Large-scale IoT platform for real-time device tracking and status visualization with live geolocation updates, JWT-secured access, and live data binding across thousands of devices.',
-        techs:      ['Angular 16','Node.js','Google Maps API','JWT','RxJS','Docker','Jasmine/Karma'],
+        desc:       'Large-scale IoT platform built for Ooredoo Qatar — real-time device tracking and status visualization with live geolocation via Google Maps and Ericsson Aeris APIs, JWT-secured access, and live data binding across thousands of devices.',
+        techs:      ['Angular 16','Node.js','Google Maps API','Ericsson Aeris APIs','JWT','RxJS','Docker','Jasmine/Karma'],
       },
       {
         emoji:      '🩺',
         bannerBg:   'linear-gradient(135deg,#1a0d2e,#3a1a5e)',
         domain:     'Telehealth',
         domainStyle:'background:rgba(167,139,250,0.1);color:var(--accent2)',
-        title:      'Telehealth Platform',
+        title:      'TEngage — Telehealth Platform',
         desc:       'Real-time communication platform connecting patients, doctors, and hospital staff with secure video conferencing, virtual consultations, and appointment management.',
         techs:      ['React','Material UI','Amazon Chime SDK','SCSS','REST APIs'],
       },
@@ -239,6 +244,7 @@ const DATA = {
     items: [
       { icon: '☁️', iconBg: 'rgba(0,120,212,0.15)',   name: 'Azure AI Fundamentals',   issuer: 'Microsoft Certified' },
       { icon: '🤖', iconBg: 'rgba(36,36,36,0.4)',      name: 'GitHub Copilot',          issuer: 'GitHub' },
+      { icon: '🌟', iconBg: 'rgba(255,215,0,0.15)',    name: 'Extraordinary YOU — Achiever Extraordinaire', issuer: 'EY GDS — Jun 2026' },
       { icon: '🏆', iconBg: 'rgba(251,191,36,0.15)',   name: 'Extra Mile Award',        issuer: 'TATA Elxsi — Aug 2023' },
       { icon: '💛', iconBg: 'rgba(10,102,194,0.15)',   name: 'JavaScript & ReactJS',    issuer: 'LinkedIn Learning' },
       { icon: '🐳', iconBg: 'rgba(13,183,237,0.15)',   name: 'Docker Certification',    issuer: 'LinkedIn Learning' },
@@ -266,6 +272,10 @@ const DATA = {
       {
         icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/></svg>`,
         label: 'Phone', value: '+91 7905 359 265', href: 'tel:+917905359265',
+      },
+      {
+        icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>`,
+        label: 'GitHub', value: 'himanshupsingh-dev', href: 'https://github.com/himanshupsingh-dev', external: true,
       },
     ],
     socials: [],
@@ -492,9 +502,9 @@ function renderHero() {
           </div>
         </div>
         <div class="ai-chips" id="ai-chips" style="opacity:0;">
-          <button class="ai-chip" onclick="window.openAIChatWithMessage && window.openAIChatWithMessage('Tell me about his top projects')">🚀 Projects</button>
-          <button class="ai-chip" onclick="window.openAIChatWithMessage && window.openAIChatWithMessage('What AI work has Himanshu done?')">🧠 AI work</button>
-          <button class="ai-chip" onclick="window.openAIChatWithMessage && window.openAIChatWithMessage('How can I get in touch with Himanshu?')">📬 Contact</button>
+          <button class="ai-chip" onclick="window.heroAskQuestion && window.heroAskQuestion('Tell me about his top projects')">🚀 Projects</button>
+          <button class="ai-chip" onclick="window.heroAskQuestion && window.heroAskQuestion('What AI work has Himanshu done?')">🧠 AI work</button>
+          <button class="ai-chip" onclick="window.heroAskQuestion && window.heroAskQuestion('How can I get in touch with Himanshu?')">📬 Contact</button>
         </div>
       </div>
       <div class="ai-stats-row">
@@ -573,7 +583,7 @@ function renderAbout() {
 
 function renderSkills() {
   const s = DATA.skills;
-  const delays = ['1','2','3','1','2','3'];
+  const delays = ['1','2','3','1','2','3','1'];
   document.getElementById('skills-inner').innerHTML = `
     <p class="section-label reveal">${s.sectionLabel}</p>
     <h2 class="section-title reveal reveal-delay-1 glitch-text">${s.title}</h2>
@@ -675,12 +685,9 @@ function renderContact() {
       <p class="contact-sub reveal reveal-delay-2">${c.subtitle}</p>
       <div class="contact-cards reveal reveal-delay-1">
         ${c.cards.map(card => `
-          <a href="${card.href}" class="contact-card" ${card.external ? 'target="_blank" rel="noopener"' : ''}>
+          <a href="${card.href}" class="contact-card" aria-label="${card.label}" title="${card.label}" ${card.external ? 'target="_blank" rel="noopener"' : ''}>
             <div class="contact-card-icon">${card.icon}</div>
-            <div>
-              <div class="contact-card-label">${card.label}</div>
-              <div class="contact-card-value">${card.value}</div>
-            </div>
+            <div class="contact-card-value">${card.value}</div>
           </a>`).join('')}
       </div>
     </div>`;

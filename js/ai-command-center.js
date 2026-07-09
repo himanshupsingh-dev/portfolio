@@ -242,7 +242,7 @@
 
   /* ── Thought Bubbles ────────────────────────────────────────── */
   const THOUGHTS = [
-    { text: '3+ Years Experience', icon: '⚡' },
+    { text: '4 Years Experience', icon: '⚡' },
     { text: 'Angular · React · Node', icon: '⚛️' },
     { text: 'AI Integration Expert', icon: '🤖' },
     { text: 'Open to Opportunities', icon: '🟢' },
@@ -525,7 +525,7 @@
     return `You are Himanshu Pratap Singh's AI neural assistant on his portfolio. Be professional, friendly, and concise (under 150 words).
 
 ## Quick Facts
-- Role: Senior Software Developer — Frontend · Backend · AI Integrations
+- Role: Senior Software Engineer — Frontend · Backend · AI Integrations
 - Location: Pune, India | Availability: ${d.hero.badge}
 - Summary: ${d.hero.description}
 
@@ -542,7 +542,7 @@ ${pr.map(p => `${p.title} (${p.domain}): ${p.desc}`).join('\n')}
 ${ct.map(c => `${c.name} — ${c.issuer}`).join(', ')}
 
 ## Contact
-Email: ${co[0].value} | LinkedIn: ${co[1].href} | Phone: ${co[2].value}
+${co.map(c => `${c.label}: ${c.href && c.href.startsWith('http') ? c.href : c.value}`).join(' | ')}
 
 Rules: Only answer about Himanshu. Use third person. For unrelated questions say you're here to discuss Himanshu's work.`;
   }

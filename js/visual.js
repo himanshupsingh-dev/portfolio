@@ -617,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
    ════════════════════════════════════════════════════════════════ */
 (function () {
   const roles = [
-    'Senior Software Developer',
+    'Senior Software Engineer',
     'Angular Developer',
     'AI Integration Engineer',
     'React Developer',
@@ -722,7 +722,7 @@ document.addEventListener('DOMContentLoaded', () => {
     block.className = 'hero-role-block';
     block.innerHTML = `
       <div class="hero-role-title">
-        <strong class="hero-role-text">${(D.hero && D.hero.role) || 'Senior Software Developer'}</strong>
+        <strong class="hero-role-text">${(D.hero && D.hero.role) || 'Senior Software Engineer'}</strong>
       </div>
       <div class="hero-role-extras">${chips}</div>
     `;

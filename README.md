@@ -7,10 +7,10 @@ A modern, interactive portfolio website for Himanshu Pratap Singh — showcasing
 - **Modern UI** - Sleek dark theme with gradient accents and smooth animations
 - **Interactive Elements** - Custom cursor, parallax effects, 3D card transforms
 - **Responsive Design** - Mobile-first approach, works on all devices
-- **Terminal Emulator** - Fun interactive terminal with custom commands
+- **AI Assistant** - Live chat (LLaMA 3.3 via a Cloudflare Worker proxy) that answers questions about skills, projects, and experience
 - **Theme Switcher** - Multiple color themes (Midnight, Ocean, Sunset, Forest)
 - **Particle Effects** - Animated backgrounds and canvas-based visualizations
-- **Contact Form** - Mailto-based form (no backend required)
+- **Contact Cards** - Email, LinkedIn, phone, and GitHub links (no backend required)
 - **Performance** - Lightweight, no heavy dependencies, optimized animations
 - **Accessibility** - Semantic HTML, ARIA labels, keyboard navigation
 
@@ -22,17 +22,23 @@ portfolio/
 ├── css/
 │   ├── main.css           # Core styles
 │   ├── components.css     # Component-specific styles
-│   └── visual.css         # Visual effects and animations
+│   ├── visual.css         # Visual effects and animations
+│   ├── universe-command.css # Skills constellation & AI command center styles
+│   └── ai-agent.css       # AI chat panel styles
 ├── js/
-│   ├── data.js            # Content and configuration
+│   ├── data.js            # Content and configuration (edit this to update the site)
 │   ├── interactions.js    # Interactive features
-│   ├── interactive.js     # Terminal and modals
+│   ├── interactive.js     # Modals, resume, shortcuts, toasts
 │   ├── visual.js          # Canvas animations
-│   └── animations.js      # Page animations and effects
-├── photo.jpeg             # Profile photo
-├── README.md              # This file
-├── SECURITY.md            # Security policy
-└── .gitignore             # Git ignore rules
+│   ├── animations.js      # Page animations and effects
+│   ├── skills-universe.js # Skills constellation visualization
+│   ├── ai-command-center.js # Neural-network hero visualization
+│   └── ai-agent.js        # AI chat assistant (talks to the Cloudflare Worker)
+├── cloudflare-worker.js    # AI proxy Worker (deployed separately, holds the API key)
+├── resume/                 # Downloadable resume PDF
+├── photo.jpeg              # Profile photo
+├── README.md               # This file
+└── .gitignore              # Git ignore rules
 ```
 
 ## 🛠️ Setup
@@ -115,20 +121,9 @@ const THEMES = {
 | Key | Action |
 |-----|--------|
 | `?` | Show shortcuts |
-| `` ` `` | Open terminal |
 | `t` | Cycle theme |
 | `g` then `c` | Jump to contact |
 | `Esc` | Close modals |
-
-### Terminal Commands
-- `help` - Show available commands
-- `about` - About me
-- `skills` - Tech stack
-- `projects` - Project list
-- `experience` - Work history
-- `resume` - Open resume
-- `theme [name]` - Change theme
-- `clear` - Clear terminal
 
 ## 📱 Browser Support
 
@@ -138,8 +133,6 @@ const THEMES = {
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
 ## 🔒 Security
-
-See [SECURITY.md](./SECURITY.md) for security policies and best practices.
 
 ### Key Security Features:
 - Content Security Policy (CSP) enabled
@@ -170,8 +163,9 @@ MIT License - Feel free to fork and customize for your own portfolio.
 **Himanshu Pratap Singh**
 - Email: himanshupsingh47@gmail.com
 - LinkedIn: [linkedin.com/in/himanshupratapsingh](https://www.linkedin.com/in/himanshupratapsingh/)
+- GitHub: [github.com/himanshupsingh-dev](https://github.com/himanshupsingh-dev)
 - Location: Pune, India
 
 ---
 
-**Last Updated:** May 2025
+**Last Updated:** July 2026

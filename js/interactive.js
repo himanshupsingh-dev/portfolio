@@ -503,7 +503,7 @@ li { margin: 0.2rem 0; }
 <div class="contact">Pune, India · himanshupsingh47@gmail.com · +91 7905 359 265 · linkedin.com/in/himanshupratapsingh</div>
 
 <h2>Summary</h2>
-<p>3+ years building secure, scalable web applications with Angular, React & Node.js across healthcare, IoT, and telehealth. Currently engineering AI-driven code generation at EY.</p>
+<p>4 years building secure, scalable web applications with Angular, React, Node.js & .NET across healthcare, IoT, and telehealth. Currently engineering AI-driven code generation at EY.</p>
 
 <h2>Experience</h2>
 ${exp.map(j => `
