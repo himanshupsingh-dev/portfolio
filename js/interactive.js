@@ -383,8 +383,7 @@
       const value = card.querySelector('.contact-card-value');
       if (!value) return;
       const text = value.textContent.trim();
-      const isLinkedIn = card.href && card.href.includes('linkedin');
-      if (isLinkedIn) return; // let LinkedIn card open normally
+      if (card.href && card.href.startsWith('http')) return; // external links (LinkedIn, GitHub, …) open normally
       const isEmail = text.includes('@');
       card.addEventListener('click', e => {
         if (e.shiftKey) return;
