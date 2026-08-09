@@ -6,6 +6,22 @@
      ════════════════════════════════════════════════════════════ */
 
   const PROJECT_DETAILS = {
+    'Rodent Shield — Product & Admin CMS': {
+      challenge: 'A non-technical business owner needed a production storefront they could run themselves — every product, price, image, and blog post editable without a developer — without giving up performance, SEO, or security.',
+      solution: [
+        'Architected the full app on Next.js 16 App Router with React 19 and TypeScript: a 10-model PostgreSQL schema through Prisma ORM serving 25+ routes on Vercel.',
+        'Built a role-protected admin CMS on Auth.js v5 + bcrypt with server-action CRUD for products, pricing, media, blog, and leads — zero code deployments to change content.',
+        'Shipped a Zod-validated, rate-limited lead-capture pipeline with a status workflow and an admin tracking dashboard.',
+        'Hardened against OWASP Top 10: strict CSP/HSTS headers, brute-force throttling with timing-safe user-enumeration defense, magic-byte upload validation, sanitized markdown, and Postgres row-level security.',
+        'Developed a scroll-driven 3D product hero in Three.js as a reusable Web Component with adaptive mobile GPU tiering and reduced-motion fallbacks.',
+        'Generated the SEO layer from the database — dynamic sitemaps and six Schema.org JSON-LD types — plus GA4 and Meta Pixel tracking.',
+      ],
+      impact: [
+        { num: '25+', lbl: 'Routes shipped' },
+        { num: '10', lbl: 'Data models' },
+        { num: '0', lbl: 'Deploys to edit content' },
+      ],
+    },
     'Secure Healthcare Portal': {
       challenge: 'Multi-hospital deployment with strict role-based access for doctors, nurses, and admins — plus real-time patient event streaming and HIPAA-conscious video consultations.',
       solution: [
@@ -34,7 +50,7 @@
         { num: '99.9%', lbl: 'Uptime' },
       ],
     },
-    'Telehealth Platform': {
+    'TEngage — Telehealth Platform': {
       challenge: 'Connect patients, doctors, and hospital staff over secure real-time video — with appointment workflows that hold up under load.',
       solution: [
         'React + Material UI front-end with Amazon Chime SDK for HIPAA-grade video conferencing.',
@@ -140,9 +156,29 @@
   function $$(sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); }
   function el(tag, props, html) {
     const e = document.createElement(tag);
-    if (props) Object.assign(e, props);
+    if (props) Object.entries(props).forEach(([k, v]) => {
+      // Keys like 'aria-label' aren't element properties — set them as attributes
+      if (k in e) e[k] = v;
+      else e.setAttribute(k, v);
+    });
     if (html != null) e.innerHTML = html;
     return e;
+  }
+
+  const REDUCED_MOTION = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Make a non-button element behave like one for keyboard users */
+  function makeActivatable(node, handler) {
+    node.setAttribute('tabindex', '0');
+    node.setAttribute('role', 'button');
+    node.addEventListener('keydown', e => {
+      if (e.target !== node) return; // ignore keys bubbling from nested activatables
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handler(e);
+      }
+    });
   }
 
   function showToast(message, icon = '✨', duration = 3500) {
@@ -165,6 +201,8 @@
     const t = THEMES[key]; if (!t) return;
     Object.entries(t.vars).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
     localStorage.setItem('hps-theme', key);
+    // Read by the inline <head> script to apply the theme before first paint
+    localStorage.setItem('hps-theme-vars', JSON.stringify(t.vars));
     $$('.theme-item').forEach(item => {
       item.classList.toggle('active', item.dataset.theme === key);
     });
@@ -178,6 +216,7 @@
         <span>${t.label}</span>
       </div>
     `).join('');
+    $$('.theme-item', list).forEach(item => makeActivatable(item, () => item.click()));
     list.addEventListener('click', e => {
       const item = e.target.closest('.theme-item');
       if (!item) return;
@@ -211,6 +250,8 @@
      ════════════════════════════════════════════════════════════ */
 
   function animateCounters() {
+    if (REDUCED_MOTION) return; // leave the final numbers as authored
+
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
@@ -250,26 +291,41 @@
      PROJECT MODAL + TECH FILTER
      ════════════════════════════════════════════════════════════ */
 
+  let lastFocusedBeforeModal = null;
+
   function openProjectModal(card) {
+    lastFocusedBeforeModal = document.activeElement;
     const title = card.querySelector('.wc-title').textContent.trim();
     const desc  = card.querySelector('.wc-desc').textContent.trim();
     const domainEl = card.querySelector('.wc-domain');
     const domain = domainEl.textContent.trim();
     const domainStyle = domainEl.getAttribute('style') || '';
     const banner = card.querySelector('.wc-banner');
-    const emoji  = banner.textContent.trim();
+    /* Read the emoji alone — the banner may also hold a "Live" badge */
+    const emojiEl = banner.querySelector('.wc-emoji');
+    const emoji   = (emojiEl || banner).textContent.trim();
     const bannerBg = banner.getAttribute('style') || '';
     const techs = $$('.wc-tech', card).map(t => t.textContent.trim());
     const detail = PROJECT_DETAILS[title] || {};
+    const link = card.dataset.link || '';
+    const soloEl = card.querySelector('.wc-solo-note');
+    const solo = soloEl ? soloEl.textContent.trim() : '';
+    const soloTagEl = card.querySelector('.wc-solo');
+    const soloTag = soloTagEl ? soloTagEl.textContent.trim() : '';
 
     $('#modal-banner').setAttribute('style', bannerBg);
     $('#modal-banner').innerHTML = `${emoji}<button class="modal-close" id="modal-close" aria-label="Close">✕</button>`;
     $('#modal-close').addEventListener('click', closeModal);
 
     $('#modal-body').innerHTML = `
-      <span class="modal-domain" style="${domainStyle}">${domain}</span>
-      <h3 class="modal-title">${title}</h3>
+      <div class="modal-tagrow">
+        <span class="modal-domain" style="${domainStyle}">${domain}</span>
+        ${soloTag ? `<span class="wc-solo">${soloTag}</span>` : ''}
+      </div>
+      <h3 class="modal-title" id="modal-title">${title}</h3>
       <p style="color:var(--text-muted);line-height:1.7">${desc}</p>
+
+      ${solo ? `<p class="modal-solo">${solo}</p>` : ''}
 
       ${detail.challenge ? `
         <div class="modal-section">
@@ -298,14 +354,44 @@
           ${techs.map(t => `<span class="wc-tech">${t}</span>`).join('')}
         </div>
       </div>
+
+      ${link ? `
+        <a class="modal-cta" href="${link}" target="_blank" rel="noopener">
+          Visit the live site ↗
+        </a>` : ''}
     `;
     $('#project-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
+    $('#modal-close').focus();
   }
 
   function closeModal() {
-    $('#project-modal').classList.remove('open');
+    const modal = $('#project-modal');
+    if (!modal.classList.contains('open')) return;
+    modal.classList.remove('open');
     document.body.style.overflow = '';
+    if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+      lastFocusedBeforeModal.focus();
+      lastFocusedBeforeModal = null;
+    }
+  }
+
+  /* Keep Tab cycling inside the modal while it's open */
+  function trapModalFocus(e) {
+    if (e.key !== 'Tab') return;
+    const modal = $('#project-modal');
+    if (!modal.classList.contains('open')) return;
+    const focusables = $$('button, [href], [tabindex]:not([tabindex="-1"])', modal);
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (!modal.contains(document.activeElement)) {
+      e.preventDefault(); first.focus();
+    } else if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
   }
 
   function setupProjectInteractions() {
@@ -314,8 +400,10 @@
 
     cards.forEach(card => {
       card.dataset.clickable = '1';
+      card.setAttribute('aria-haspopup', 'dialog');
+      makeActivatable(card, () => openProjectModal(card));
       card.addEventListener('click', e => {
-        if (e.target.closest('.wc-tech')) return;
+        if (e.target.closest('.wc-tech, .wc-link')) return;
         openProjectModal(card);
       });
     });
@@ -323,11 +411,12 @@
     $('#project-modal').addEventListener('click', e => {
       if (e.target.id === 'project-modal') closeModal();
     });
+    document.addEventListener('keydown', trapModalFocus);
 
     /* Tech filter chips */
     const allTechs = new Set();
     cards.forEach(c => $$('.wc-tech', c).forEach(t => allTechs.add(t.textContent.trim())));
-    const popular = ['Angular 19','React','TypeScript','Node.js','.NET Core','GraphQL','OpenAI API','Docker'];
+    const popular = ['Angular 19','React','Next.js 16','TypeScript','Node.js','.NET Core','GraphQL','OpenAI API','Docker'];
     const techsToShow = popular.filter(t => allTechs.has(t));
 
     const grid = $('.work-grid');
@@ -357,6 +446,7 @@
     cards.forEach(card => {
       $$('.wc-tech', card).forEach(chip => {
         chip.style.cursor = 'pointer';
+        makeActivatable(chip, () => chip.click());
         chip.addEventListener('click', e => {
           e.stopPropagation();
           const target = chip.textContent.trim();
@@ -596,6 +686,7 @@ ${skills.map(s => `<div class="skill-cat"><strong>${s.title}</strong>${s.pills.j
   }
 
   function fireConfetti() {
+    if (REDUCED_MOTION) return; // the toast still announces the easter egg
     const canvas = $('#confetti-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -684,6 +775,7 @@ ${skills.map(s => `<div class="skill-cat"><strong>${s.title}</strong>${s.pills.j
         case 'Escape':
           close();
           closeModal();
+          $('#theme-pop').classList.remove('open');
           break;
       }
     });

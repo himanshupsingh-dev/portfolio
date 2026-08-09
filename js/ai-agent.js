@@ -48,7 +48,7 @@ ${jb[2].bullets.map(b => `- ${b}`).join('\n')}
 ${sk.map(s => `${s.title}: ${s.pills.join(', ')}`).join('\n')}
 
 ## Projects Built
-${pr.map(p => `${p.title} (${p.domain})\n${p.desc}\nStack: ${p.techs.join(', ')}`).join('\n\n')}
+${pr.map(p => `${p.title} (${p.domain})\n${p.desc}${p.solo ? `\n${p.solo}` : ''}\nStack: ${p.techs.join(', ')}${p.link ? `\nLive site: ${p.link}` : ''}`).join('\n\n')}
 
 ## Certifications & Awards
 ${ct.map(c => `- ${c.name} — ${c.issuer}`).join('\n')}

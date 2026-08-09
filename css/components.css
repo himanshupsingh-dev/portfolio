@@ -505,6 +505,92 @@ section::after {
 .work-card.hide { display: none; }
 .work-card[data-clickable] { cursor: pointer !important; }
 
+/* ── Solo-build badge, live pill & external link ─────────────── */
+.wc-tagrow {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.4rem; margin-bottom: 0.75rem;
+}
+.wc-tagrow .wc-domain { margin-bottom: 0; }
+.wc-solo {
+  display: inline-block; padding: 0.25rem 0.65rem;
+  border-radius: 6px; font-size: 0.7rem; font-weight: 600;
+  font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--accent2);
+  background: rgba(167,139,250,0.12);
+  border: 1px solid rgba(167,139,250,0.32);
+}
+.wc-live {
+  position: absolute; top: 0.85rem; right: 0.85rem;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.22rem 0.6rem; border-radius: 999px;
+  font-size: 0.62rem; font-weight: 700; font-family: var(--mono);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: #d1fae5; background: rgba(4,18,12,0.6);
+  border: 1px solid rgba(52,211,153,0.45);
+  backdrop-filter: blur(4px);
+}
+.wc-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent3); box-shadow: 0 0 6px var(--accent3);
+  animation: wc-live-pulse 1.8s ease-in-out infinite;
+}
+@keyframes wc-live-pulse {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  50%      { opacity: 0.45; transform: scale(0.75); }
+}
+.wc-solo-note {
+  font-size: 0.8rem; line-height: 1.6; color: var(--text-muted);
+  border-left: 2px solid var(--accent2);
+  padding-left: 0.75rem; margin: 0 0 1.15rem;
+}
+.wc-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  margin-top: 1.1rem; font-size: 0.82rem; font-weight: 600;
+  color: var(--accent); text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.wc-link:hover { color: var(--accent2); border-bottom-color: currentColor; }
+.wc-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+/* ── Modal: badges, solo note + live-site CTA ────────────────── */
+.modal-tagrow {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 0.4rem; margin-bottom: 0.75rem;
+}
+.modal-tagrow .modal-domain { margin-bottom: 0; }
+.modal-solo {
+  font-size: 0.88rem; line-height: 1.7; color: var(--text-muted);
+  border-left: 2px solid var(--accent2);
+  padding-left: 0.85rem; margin: 1rem 0 0;
+}
+.modal-cta {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  margin-top: 1.5rem; padding: 0.65rem 1.2rem;
+  border-radius: 9px; text-decoration: none;
+  font-size: 0.85rem; font-weight: 600; color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.modal-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79,142,247,0.32); }
+.modal-cta:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wc-live-dot { animation: none; }
+  .modal-cta:hover { transform: none; }
+}
+
+/* ── Keyboard focus ──────────────────────────────────────────── */
+.work-card[data-clickable]:focus-visible,
+.wc-tech:focus-visible,
+.theme-item:focus-visible,
+.filter-chip:focus-visible,
+.dock-btn:focus-visible,
+.modal-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ── Contact form ────────────────────────────────────────────── */
 .contact-form {
   max-width: 540px; margin: 3rem auto 2rem;

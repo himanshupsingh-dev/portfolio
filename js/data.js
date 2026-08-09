@@ -37,10 +37,10 @@ const DATA = {
       { num: '5', suffix: '+', label: 'Certifications' },
     ],
     floatTags: [
-      'Angular 19', 'GraphQL', 'AI / LLMs',
-      'TypeScript', 'React', 'Node.js',
-      '.NET Core', 'Docker', 'Jest',
-      'RxJS', 'Angular Signals', 'Claude AI',
+      'Angular 19', 'Next.js 16', 'AI / LLMs',
+      'TypeScript', 'React 19', 'Node.js',
+      '.NET Core', 'PostgreSQL', 'Prisma ORM',
+      'GraphQL', 'Three.js', 'Claude AI',
     ],
     codeCard: {
       filename: 'developer.ts',
@@ -50,8 +50,8 @@ const DATA = {
         `&nbsp;&nbsp;<span class="obj">role</span>: <span class="str">"Senior Software Engineer"</span>,`,
         `&nbsp;&nbsp;<span class="obj">experience</span>: <span class="num">4</span>,`,
         `&nbsp;&nbsp;<span class="obj">stack</span>: [`,
-        `&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Angular"</span>, <span class="str">"React"</span>, <span class="str">"Node.js"</span>,`,
-        `&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"TypeScript"</span>, <span class="str">"GraphQL"</span>,`,
+        `&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Angular"</span>, <span class="str">"React"</span>, <span class="str">"Next.js"</span>,`,
+        `&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Node.js"</span>, <span class="str">".NET"</span>, <span class="str">"TypeScript"</span>,`,
         `&nbsp;&nbsp;],`,
         `&nbsp;&nbsp;<span class="obj">passion</span>: <span class="str">"Building for impact"</span>,`,
         `};<span class="cursor"></span>`,
@@ -68,6 +68,7 @@ const DATA = {
       "I'm a results-driven Senior Software Engineer with 4 years of experience building end-to-end web applications — from pixel-perfect UIs to scalable backend services in Node.js and .NET.",
       "I thrive on building things that matter — from real-time healthcare portals with role-based access control, to large-scale IoT dashboards tracking thousands of devices, to telehealth platforms connecting patients and doctors.",
       "Currently at EY as a Senior Software Engineer, I'm engineering OpenAI API integrations to modernize legacy systems and accelerate development workflows using AI-driven code refactoring.",
+      "Outside client work I ship products end to end — most recently Rodent Shield, a production Next.js 16 platform I built solo from database schema to admin CMS, 3D front end, security hardening, and deployment.",
     ],
     highlights: [
       { icon: '📍', label: 'Location',     value: 'Pune, Maharashtra' },
@@ -86,12 +87,12 @@ const DATA = {
       {
         icon: '⚛️', iconBg: 'rgba(79,142,247,0.15)',
         title: 'Frontend Technologies', sub: 'UI Frameworks & Libraries',
-        pills: ['Angular 19','Angular Signals','React','Next.js','TypeScript','RxJS','Tailwind CSS','SCSS','Material UI','Bootstrap','Keycloak'],
+        pills: ['Angular 19','Angular Signals','React 19','Next.js 16','TypeScript','RxJS','Three.js','Web Components','Tailwind CSS','SCSS','Material UI','Bootstrap','Keycloak'],
       },
       {
         icon: '🔧', iconBg: 'rgba(52,211,153,0.15)',
         title: 'Backend & APIs', sub: 'Server & Integration Layer',
-        pills: ['Node.js','.NET Core','ASP.NET Core','GraphQL','RESTful APIs','JWT Auth','WebSockets','JSON'],
+        pills: ['Node.js','.NET Core','ASP.NET Core','GraphQL','RESTful APIs','Server Actions','PostgreSQL','Prisma ORM','JWT Auth','WebSockets','JSON'],
       },
       {
         icon: '🤖', iconBg: 'rgba(6,182,212,0.15)',
@@ -106,12 +107,17 @@ const DATA = {
       {
         icon: '🚀', iconBg: 'rgba(251,191,36,0.15)',
         title: 'DevOps & Tools', sub: 'CI/CD & Version Control',
-        pills: ['Docker','GitLab','GitHub','Gerrit','Jenkins','Tomcat','CI/CD','Jira'],
+        pills: ['Docker','GitLab','GitHub','Gerrit','Jenkins','Tomcat','CI/CD','Vercel','Supabase','Jira'],
       },
       {
         icon: '🧪', iconBg: 'rgba(239,68,68,0.15)',
         title: 'Testing & Quality', sub: 'Reliability & Coverage',
         pills: ['Jest','Jasmine','Karma','Postman','Debugging Tools'],
+      },
+      {
+        icon: '🔒', iconBg: 'rgba(244,114,182,0.15)',
+        title: 'Security & Web Foundations', sub: 'Hardening, Auth & SEO',
+        pills: ['OWASP Top 10','CSP & HSTS','Auth.js v5','bcrypt','Zod Validation','Rate Limiting','Postgres RLS','Schema.org JSON-LD','GA4 / Meta Pixel'],
       },
       {
         icon: '📊', iconBg: 'rgba(16,185,129,0.15)',
@@ -168,8 +174,22 @@ const DATA = {
   work: {
     sectionLabel: 'Selected Work',
     title:        "Things I've Built",
-    subtitle:     'A selection of impactful projects across healthcare, IoT, telehealth, HR tech, and AI domains.',
+    subtitle:     'A selection of impactful projects across full-stack product, healthcare, IoT, telehealth, HR tech, and AI domains.',
     projects: [
+      {
+        emoji:      '🛡️',
+        bannerBg:   'linear-gradient(135deg,#141b06,#2f4310)',
+        domain:     'Full-Stack Product',
+        domainStyle:'background:rgba(163,230,53,0.1);color:#a3e635',
+        title:      'Rodent Shield — Product & Admin CMS',
+        desc:       'A production full-stack product platform built solo end to end: a Next.js 16 App Router storefront with a scroll-driven Three.js hero, a 10-model PostgreSQL schema via Prisma across 25+ routes, a role-protected admin CMS that lets a non-technical owner manage every product, price, and post without a deploy, and OWASP-hardened security throughout.',
+        solo:       'Personal Project',
+        soloNote:   'Built independently, outside client work — sole developer across architecture, database, admin portal, 3D front end, security, and deployment.',
+        link:       'https://www.motormintautomotive.com/rodent-shield',
+        linkLabel:  'Visit the live site',
+        live:       true,
+        techs:      ['Next.js 16','React 19','TypeScript','PostgreSQL','Prisma ORM','Auth.js v5','Server Actions','Three.js','Zod','Vercel'],
+      },
       {
         emoji:      '🏥',
         bannerBg:   'linear-gradient(135deg,#0d1b3e,#1a3a6b)',
@@ -583,7 +603,8 @@ function renderAbout() {
 
 function renderSkills() {
   const s = DATA.skills;
-  const delays = ['1','2','3','1','2','3','1'];
+  /* Stagger the reveal in rows of three, whatever the category count */
+  const delays = s.categories.map((_, i) => String((i % 3) + 1));
   document.getElementById('skills-inner').innerHTML = `
     <p class="section-label reveal">${s.sectionLabel}</p>
     <h2 class="section-title reveal reveal-delay-1 glitch-text">${s.title}</h2>
@@ -642,15 +663,23 @@ function renderWork() {
     <p class="section-sub reveal reveal-delay-2">${w.subtitle}</p>
     <div class="work-grid">
       ${w.projects.map((p, i) => `
-        <div class="work-card reveal reveal-delay-${i % 3}">
-          <div class="wc-banner" style="background:${p.bannerBg}">${p.emoji}</div>
+        <div class="work-card reveal reveal-delay-${i % 3}"${p.link ? ` data-link="${p.link}"` : ''}>
+          <div class="wc-banner" style="background:${p.bannerBg}">
+            <span class="wc-emoji">${p.emoji}</span>
+            ${p.live ? `<span class="wc-live"><span class="wc-live-dot"></span>Live</span>` : ''}
+          </div>
           <div class="wc-body">
-            <span class="wc-domain" style="${p.domainStyle}">${p.domain}</span>
+            <div class="wc-tagrow">
+              <span class="wc-domain" style="${p.domainStyle}">${p.domain}</span>
+              ${p.solo ? `<span class="wc-solo">${p.solo}</span>` : ''}
+            </div>
             <div class="wc-title">${p.title}</div>
             <p class="wc-desc">${p.desc}</p>
+            ${p.soloNote ? `<p class="wc-solo-note">${p.soloNote}</p>` : ''}
             <div class="wc-techs">
               ${p.techs.map(t => `<span class="wc-tech">${t}</span>`).join('')}
             </div>
+            ${p.link ? `<a class="wc-link" href="${p.link}" target="_blank" rel="noopener">${p.linkLabel || 'Visit site'} ↗</a>` : ''}
           </div>
         </div>`).join('')}
     </div>`;
